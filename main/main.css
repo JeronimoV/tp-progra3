@@ -1,0 +1,150 @@
+* {
+    margin: 0;
+}
+
+.window {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10rem;
+}
+
+.aside {
+    width: 20rem;
+    background-color: #ffffff;
+    padding: 2rem 1rem;
+    box-shadow: 4px 0 8px rgba(0, 0, 0, 0.1);
+    overflow-y: auto;
+    max-height: 100vh;
+}
+
+.aside::-webkit-scrollbar {
+    width: 8px;
+}
+
+.aside::-webkit-scrollbar-thumb {
+    background-color: #ccc;
+    border-radius: 4px;
+}
+
+.aside::-webkit-scrollbar-track {
+    background-color: #f0f0f0;
+}
+
+.aside ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.aside li {
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.aside img {
+    height: 5rem;
+    display: block;
+    margin: 0 auto 0.5rem;
+}
+
+.aside p {
+    font-weight: bold;
+    margin: 0;
+}
+
+/* Contenedor de productos estilo tótem */
+.contenedor-productos {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    padding: 3rem;
+    background-color: #fff;
+    overflow-y: auto;
+}
+
+/* Cada producto (tarjeta) */
+.card-producto {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 1rem;
+    background-color: #f9f9f9;
+    border-radius: 1rem;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease-in-out;
+    cursor: pointer;
+}
+
+.card-producto:hover {
+    transform: scale(1.03);
+}
+
+.card-producto img {
+    height: 7rem;
+    margin-bottom: 0.5rem;
+}
+
+.card-producto h3 {
+    margin: 0.5rem 0 0.25rem;
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+.card-producto p {
+    margin: 0;
+    color: #333;
+    font-weight: bold;
+}
+
+/* Botón de "Agregar Carrito" */
+.card-producto button {
+    margin-top: 0.7rem;
+    padding: 0.5rem 1rem;
+    border: none;
+    background-color: #ffbc0d;
+    color: #000;
+    font-weight: bold;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.card-producto button:hover {
+    background-color: #e0a800;
+}
+
+.header {
+    display: flex;
+    justify-content: space-around;
+    background-color: #ffbc0d;
+    align-items: center;
+    margin: 0px;
+    padding: 1rem;
+    height: 2rem;
+}
+
+.header a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-decoration: none;
+    color: white;
+}
+
+
+.header input {
+    width: 30rem;
+    height: 2rem;
+}
+
+.header p {
+    text-align: center;
+}
+
+.header img {
+    height: 2.5rem;
+}
