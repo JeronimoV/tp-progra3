@@ -81,13 +81,6 @@ function generarProductos(productos){
 
         // Total parcial
         total += productos[i].precio * productos[i].cantidad;
-        button.textContent = "X"
-
-        button.name = i;
-
-        button.addEventListener("click", function(event){
-            mostrarCarrito(productos[event.target.name]); //Le paso el nombre del producto
-        })
 
         div.appendChild(img);
         div.appendChild(h3);
@@ -130,4 +123,5 @@ function getLocalStorage(){
 function guardarYActualizar(){
     localStorage.setItem("producto", JSON.stringify(productos));
     generarProductos(productos);
+    console.log("Carrito actualizado:", productos);
 }
