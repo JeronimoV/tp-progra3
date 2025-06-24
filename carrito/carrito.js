@@ -52,6 +52,7 @@ function generarProductos(productos){
         img.src = productos[i].imagen;
         h3.textContent = productos[i].nombre;
         p.textContent = "$" + productos[i].precio;
+
         cantidad.textContent = "Cantidad: " + productos[i].cantidad;
 
         // Botón +
@@ -80,6 +81,13 @@ function generarProductos(productos){
 
         // Total parcial
         total += productos[i].precio * productos[i].cantidad;
+        button.textContent = "X"
+
+        button.name = i;
+
+        button.addEventListener("click", function(event){
+            mostrarCarrito(productos[event.target.name]); //Le paso el nombre del producto
+        })
 
         div.appendChild(img);
         div.appendChild(h3);

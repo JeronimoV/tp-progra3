@@ -169,4 +169,7 @@ function agregarCarrito(productoAgregar){
     cancelar.onclick = function () {
         modal.style.display = "none";
     };
+
+    carrito.push(productoAgregar)
+    localStorage.setItem("producto", JSON.stringify(carrito))
 }
