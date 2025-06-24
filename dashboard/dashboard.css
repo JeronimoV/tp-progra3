@@ -35,6 +35,10 @@
     height: 2.5rem;
 }
 
+.card-producto-inactivo {
+    opacity: 0.5;
+}
+
 .contenedor-productos {
     display: flex;
     justify-content: center;

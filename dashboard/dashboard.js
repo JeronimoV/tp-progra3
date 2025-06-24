@@ -2,52 +2,62 @@ var productos = [
     {
         "imagen": "https://png.pngtree.com/png-vector/20240829/ourmid/pngtree-delicious-and-testy-cheese-burger-png-image_13659847.png",
         "nombre": "Hamburguesa Atómica",
-        "precio": 6500
+        "precio": 6500,
+        "estado": true
     },
     {
         "imagen": "https://img.pikbest.com/origin/09/16/69/71ZpIkbEsTjDC.png!bw700",
         "nombre": "Doble Fuego",
-        "precio": 7200
+        "precio": 7200,
+        "estado": true
     },
     {
         "imagen": "https://png.pngtree.com/png-clipart/20231017/original/pngtree-burger-food-png-free-download-png-image_13329458.png",
         "nombre": "Clásica Criolla",
-        "precio": 5900
+        "precio": 5900,
+        "estado": true
     },
     {
         "imagen": "https://png.pngtree.com/png-vector/20240829/ourmid/pngtree-delicious-and-testy-cheese-burger-png-image_13659847.png",
         "nombre": "Bacon Lover",
-        "precio": 7100
+        "precio": 7100,
+        "estado": true
     },
     {
         "imagen": "https://img.pikbest.com/origin/09/16/69/71ZpIkbEsTjDC.png!bw700",
         "nombre": "Verde Veggie",
-        "precio": 6200
+        "precio": 6200,
+        "estado": true
     },
     {
         "imagen": "https://png.pngtree.com/png-clipart/20231017/original/pngtree-burger-food-png-free-download-png-image_13329458.png",
         "nombre": "Picante Andina",
-        "precio": 6800
+        "precio": 6800,
+        "estado": true
     },
     {
         "imagen": "https://png.pngtree.com/png-vector/20240829/ourmid/pngtree-delicious-and-testy-cheese-burger-png-image_13659847.png",
         "nombre": "Queso Extremo",
-        "precio": 7000
+        "precio": 7000,
+        "estado": true
     },
     {
         "imagen": "https://img.pikbest.com/origin/09/16/69/71ZpIkbEsTjDC.png!bw700",
         "nombre": "Pampa BBQ",
-        "precio": 6950
+        "precio": 6950,
+        "estado": true
     },
     {
         "imagen": "https://png.pngtree.com/png-clipart/20231017/original/pngtree-burger-food-png-free-download-png-image_13329458.png",
         "nombre": "Tex-Mex Boom",
-        "precio": 7350
+        "precio": 7350,
+        "estado": true
     },
     {
         "imagen": "https://png.pngtree.com/png-vector/20240829/ourmid/pngtree-delicious-and-testy-cheese-burger-png-image_13659847.png",
         "nombre": "Trufada Deluxe",
-        "precio": 7900
+        "precio": 7900,
+        "estado": true
     }
 ];
 
@@ -81,6 +91,10 @@ function generarProductos(productos){
         */
         contenedor.removeChild(contenedor.firstChild)
     }
+    let creacion = document.createElement("a");
+    creacion.textContent = "Crear Producto";
+    creacion.href = "../modeladoProducto/modelado.html"
+    contenedor.appendChild(creacion);
     for(let i = 0; i < productos.length; i++){
         let div = document.createElement("article");
         let img = document.createElement("img");
@@ -89,19 +103,28 @@ function generarProductos(productos){
         let button = document.createElement("a");
         let button2 = document.createElement("button");
 
-        div.className = "card-producto"
-
         img.src = productos[i].imagen;
         h3.textContent = productos[i].nombre;
         p.textContent = "$" + productos[i].precio;
         button.textContent = "Editar"
-        button2.textContent = "Eliminar"
+        if(productos[i].estado == true){
+            button2.textContent = "Desactivar"
+            div.className = "card-producto"
+        }else{
+            button2.textContent = "Activar"
+            div.className = "card-producto-inactivo"
+        }
         button.href = "../editadoProducto/editado.html"
 
         button.name = i;
+        button2.name = i;
 
         button.addEventListener("click", function(event){
             mostrarCarrito(productos[event.target.name]); //Le paso el nombre del producto
+        })
+
+        button2.addEventListener("click", function(event){
+            eliminar(productos[event.target.name]); //Le paso el nombre del producto
         })
 
         div.appendChild(img);
@@ -126,7 +149,17 @@ function filtradoProductos(string){
     */
     let elementos = productos;
     if(string != null){
-        elementos = frutas.filter(el => el.nombre.toLowerCase().includes(string.toLowerCase()))
+        elementos = productos.filter(el => el.nombre.toLowerCase().includes(string.toLowerCase()))
     }
     generarProductos(elementos)
+}
+
+function eliminar(string){
+    
+    for(let i = 0; productos.length > i; i++){
+        if(productos[i].nombre == string.nombre){
+            productos[i].estado = !productos[i].estado;
+        }
+    }
+    generarProductos(productos);
 }
