@@ -1,59 +1,69 @@
 var productos = [
     {
+        "id":1,
         "imagen": "https://png.pngtree.com/png-vector/20240829/ourmid/pngtree-delicious-and-testy-cheese-burger-png-image_13659847.png",
         "nombre": "Hamburguesa Atómica",
         "precio": 6500,
-        "estado": false
+        "estado": true
     },
     {
+        "id":2,
         "imagen": "https://img.pikbest.com/origin/09/16/69/71ZpIkbEsTjDC.png!bw700",
         "nombre": "Doble Fuego",
         "precio": 7200,
         "estado": true
     },
     {
+        "id":3,
         "imagen": "https://png.pngtree.com/png-clipart/20231017/original/pngtree-burger-food-png-free-download-png-image_13329458.png",
         "nombre": "Clásica Criolla",
         "precio": 5900,
         "estado": true
     },
     {
+        "id":4,
         "imagen": "https://png.pngtree.com/png-vector/20240829/ourmid/pngtree-delicious-and-testy-cheese-burger-png-image_13659847.png",
         "nombre": "Bacon Lover",
         "precio": 7100,
         "estado": true
     },
     {
+        "id":5,
         "imagen": "https://img.pikbest.com/origin/09/16/69/71ZpIkbEsTjDC.png!bw700",
         "nombre": "Verde Veggie",
         "precio": 6200,
         "estado": true
     },
     {
+        "id":6,
         "imagen": "https://png.pngtree.com/png-clipart/20231017/original/pngtree-burger-food-png-free-download-png-image_13329458.png",
         "nombre": "Picante Andina",
         "precio": 6800,
-        "estado": false
+        "estado": true
     },
     {
+        "id":7,
         "imagen": "https://png.pngtree.com/png-vector/20240829/ourmid/pngtree-delicious-and-testy-cheese-burger-png-image_13659847.png",
         "nombre": "Queso Extremo",
         "precio": 7000,
         "estado": true
     },
     {
+        "id":8,
         "imagen": "https://img.pikbest.com/origin/09/16/69/71ZpIkbEsTjDC.png!bw700",
         "nombre": "Pampa BBQ",
         "precio": 6950,
         "estado": true
     },
     {
+        "id":9,
         "imagen": "https://png.pngtree.com/png-clipart/20231017/original/pngtree-burger-food-png-free-download-png-image_13329458.png",
         "nombre": "Tex-Mex Boom",
         "precio": 7350,
         "estado": true
     },
     {
+        "id":10,
         "imagen": "https://png.pngtree.com/png-vector/20240829/ourmid/pngtree-delicious-and-testy-cheese-burger-png-image_13659847.png",
         "nombre": "Trufada Deluxe",
         "precio": 7900,
