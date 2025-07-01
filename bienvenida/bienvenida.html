@@ -2,15 +2,33 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="bienvenida.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Bienvenido</title>
+  <link rel="stylesheet" href="bienvenida.css" />
 </head>
 
+<div class="autores">
+  <p>Tiziano Gonzalez</p>
+  <p>Jeronimo Vilar</p>
+</div>
+
+
 <body>
-    <h1>Bienvenido</h1>
-    <a href="../main/main.html"><button>Ingresa</button></a>
+
+  <!-- Imagen decorativa superior -->
+  <img src="https://images.vexels.com/media/users/3/136309/isolated/preview/c6539229ad5c57c313d95711a1e676db-logo-hamburguesa-comida-rapida.png"
+    alt="Logo Hamburguesa" class="logo-hamburguesa" />
+
+  <h1>Bienvenido a (Nombre de la aplicación)</h1>
+
+  <form id="loginForm" novalidate>
+    <input type="text" id="username" name="username" placeholder="Ingrese su nombre de usuario" autocomplete="off" />
+    <div id="error" class="error-message" style="display:none;">Por favor ingrese un nombre de usuario</div>
+    <button type="submit">Ingresa</button>
+  </form>
+
+  <script src="bienvenida.js"></script>
 </body>
 
 </html>

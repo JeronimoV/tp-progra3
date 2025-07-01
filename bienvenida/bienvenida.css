@@ -7,14 +7,116 @@ body {
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    font-family: Arial, sans-serif;
 }
 
 h1 {
     color: white;
     font-size: 4rem;
+    margin-bottom: 2rem;
+}
+
+.logo-hamburguesa {
+    width: 10rem;
+    height: auto;
+    margin-bottom: 1.5rem;
+    filter: drop-shadow(2px 4px 6px rgba(0, 0, 0, 0.2));
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.autores {
+    margin-top: 2rem;
+    text-align: center;
+    color: white;
+    font-weight: bold;
+    font-size: 1rem;
+    line-height: 1.5rem;
+    opacity: 0.9;
+}
+
+input[type="text"] {
+    width: 25rem;
+    height: 2.5rem;
+    font-size: 1.2rem;
+    padding: 0.2rem 0.5rem;
+    border: none;
+    border-radius: 5px;
+    margin-bottom: 0.5rem;
+}
+
+input[type="text"]:focus {
+    outline: 2px solid #333;
+}
+
+.error-message {
+    color: #ff2e2e;
+    font-weight: bold;
+    margin-bottom: 1rem;
 }
 
 button {
     width: 25rem;
     height: 2.5rem;
+    font-size: 1.2rem;
+    background-color: #333;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+button:hover {
+    background-color: #555;
+}
+
+
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2.5rem;
+        text-align: center;
+    }
+
+    .autores {
+    font-size: 0.9rem;
+    line-height: 1.3rem;
+}
+
+    .logo-hamburguesa {
+        width: 6rem;
+        margin-bottom: 1rem;
+    }
+
+    input[type="text"],
+    button {
+        width: 80%;
+        font-size: 1rem;
+    }
+
+    .error-message {
+        font-size: 0.9rem;
+        text-align: center;
+        padding: 0 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 2rem;
+    }
+
+    .logo-hamburguesa {
+        width: 5rem;
+    }
+
+    input[type="text"],
+    button {
+        width: 90%;
+        height: 2.2rem;
+    }
 }

@@ -75,6 +75,22 @@ var carrito = []
 
 //-----------------------------------------------------------------------------------
 
+//Script para utilizar el nombre ingresado sin uso de LocalStorage
+
+window.addEventListener("DOMContentLoaded", () => {
+    const params = new URLSearchParams(window.location.search);
+    const nombre = params.get("nombre");
+
+    if (nombre) {
+        const bienvenida = document.getElementById("bienvenida-texto");
+        if (bienvenida) {
+            bienvenida.textContent = `¡Ahora si, ${nombre}!`;
+        }
+    }
+});
+
+//-----------------------------------------------------------------------------------
+
 var contenedor = document.getElementsByClassName("contenedor-productos")[0];
 
 var valorBusqueda

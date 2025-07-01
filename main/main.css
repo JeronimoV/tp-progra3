@@ -1,3 +1,47 @@
+.navbar {
+  background-color: #333;
+  padding: 1rem 2rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.navbar-nombres {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  color: white;
+  font-size: 0.95rem;
+  font-weight: bold;
+  gap: 0.2rem;
+}
+
+.navbar-links {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar-links li {
+  display: inline;
+}
+
+.navbar-links a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1.1rem;
+  padding: 0.5rem 1rem;
+  transition: background-color 0.3s, color 0.3s;
+  border-radius: 5px;
+}
+
+.navbar-links a:hover {
+  background-color: #ffbc0d;
+  color: #000;
+}
+
 * {
     margin: 0;
 }
@@ -51,6 +95,14 @@
 .aside p {
     font-weight: bold;
     margin: 0;
+}
+
+.mensaje-bienvenida {
+    text-align: center;
+    font-size: 2rem;
+    font-weight: bold;
+    color: #333;
+    margin: 2rem 0 1rem;
 }
 
 /* Contenedor de productos estilo tótem */
@@ -193,4 +245,82 @@
 
 .modal-botones button:hover {
     background-color: #e0a800;
+}
+
+
+
+@media (max-width: 1024px) {
+  .header {
+    flex-direction: column;
+    height: auto;
+    gap: 1rem;
+  }
+
+  .header input {
+    width: 90%;
+  }
+
+  .navbar-links {
+    flex-direction: column;
+    gap: 1rem;
+    padding: 1rem 0;
+  }
+
+  .window {
+    flex-direction: column;
+    gap: 2rem;
+  }
+
+  .contenedor-productos {
+    grid-template-columns: repeat(2, 1fr);
+    padding: 1.5rem;
+  }
+
+  .aside {
+    width: 100%;
+    max-height: 15rem;
+    display: flex;
+    overflow-x: auto;
+    overflow-y: hidden;
+  }
+
+  .aside ul {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+  }
+
+  .aside li {
+    min-width: 6rem;
+    text-align: center;
+  }
+
+  .aside img {
+    height: 3.5rem;
+  }
+}
+
+@media (max-width: 600px) {
+  .contenedor-productos {
+    grid-template-columns: 1fr;
+    padding: 1rem;
+  }
+
+  .header input {
+    width: 100%;
+  }
+
+  .mensaje-bienvenida {
+    font-size: 1.5rem;
+    margin: 1rem 0;
+  }
+
+  .navbar-links a {
+    font-size: 1rem;
+    padding: 0.4rem 0.8rem;
+  }
+
+  .modal-contenido {
+    width: 95%;
+  }
 }
