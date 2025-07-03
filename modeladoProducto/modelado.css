@@ -39,7 +39,7 @@
 }
 
 .navbar-links a:hover {
-  background-color: #ffbc0d;
+  background-color: #2C82C9;
   color: #000;
 }
 
@@ -50,7 +50,7 @@
 .header {
     display: flex;
     justify-content: space-around;
-    background-color: #ffbc0d;
+    background-color: #2C82C9;
     align-items: center;
     margin: 0px;
     padding: 1rem;

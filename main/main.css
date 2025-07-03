@@ -156,7 +156,7 @@
     margin-top: 0.7rem;
     padding: 0.5rem 1rem;
     border: none;
-    background-color: #ffbc0d;
+    background-color: #2C82C9;
     color: #000;
     font-weight: bold;
     border-radius: 0.5rem;
@@ -165,13 +165,13 @@
 }
 
 .card-producto button:hover {
-    background-color: #e0a800;
+    background-color: #2C82C9;
 }
 
 .header {
     display: flex;
     justify-content: space-around;
-    background-color: #ffbc0d;
+    background-color: #2C82C9;
     align-items: center;
     margin: 0px;
     padding: 1rem;
@@ -235,7 +235,7 @@
 .modal-botones button {
     margin: 0 0.5rem;
     padding: 0.6rem 1.2rem;
-    background-color: #ffbc0d;
+    background-color: #2C82C9;
     border: none;
     border-radius: 0.5rem;
     font-weight: bold;
@@ -244,7 +244,7 @@
 }
 
 .modal-botones button:hover {
-    background-color: #e0a800;
+    background-color: #2C82C9;
 }
 
 

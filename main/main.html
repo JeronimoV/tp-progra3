@@ -1,107 +1,73 @@
-    <!DOCTYPE html>
-    <html lang="en">
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="main.css" />
+  <title>Productos</title>
+</head>
+<body>
 
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link rel="stylesheet" href="main.css">
+  <nav class="navbar">
+    <ul class="navbar-links">
+      <li><a href="../bienvenida/bienvenida.html">Bienvenida</a></li>
+      <li><a href="main.html">Inicio</a></li>
+      <li><a href="../carrito/carrito.html">Carrito</a></li>
+      <li><a href="../dashboard/dashboard.html">Dashboard</a></li>
+      <li><a href="../editadoProducto/editado.html">Editar Producto</a></li>
+      <li><a href="../modeladoProducto/modelado.html">Modelado</a></li>
+    </ul>
+    <div class="navbar-nombres">
+      <span>Tiziano Gonzalez</span>
+      <span>Jeronimo Vilar</span>
+    </div>
+  </nav>
 
-        <title>Document</title>
-    </head>
+  <header class="header">
+    <a href="main.html">
+      <img src="https://static.vecteezy.com/system/resources/previews/047/443/035/original/computer-technology-logo-template-designs-computer-service-logo-template-design-concept-free-vector.jpg" />
+      <p>G&V Computación</p>
+    </a>
+    <input placeholder="Buscar productos..." oninput="filtradoProductos(this.value)" />
+    <a href="../carrito/carrito.html">
+      <img src="https://cdn-icons-png.flaticon.com/512/3144/3144456.png" />
+      <p>Carrito</p>
+    </a>
+  </header>
 
-    <body>
+  <h2 id="bienvenida-texto" class="mensaje-bienvenida"></h2>
 
-        <nav class="navbar">
-            <ul class="navbar-links">
-                <li><a href="../bienvenida/bienvenida.html">Bienvenida</a></li>
-                <li><a href="../main/main.html">Inicio</a></li>
-                <li><a href="../carrito/carrito.html">Carrito</a></li>
-                <li><a href="../dashboard/dashboard.html">Dashboard</a></li>
-                <li><a href="../editadoProducto/editado.html">Editar Producto</a></li>
-                <li><a href="../modeladoProducto/modelado.html">Modelado</a></li>
-            </ul>
-            <div class="navbar-nombres">
-                <span>Tiziano Gonzalez</span>
-                <span>Jeronimo Vilar</span>
-            </div>
-        </nav>
+  <div class="window">
+    <aside class="aside">
+      <nav>
+        <ul>
+          <li><a href="main.html?categoria=gabinete"><img src="https://katech.com.ar/wp-content/uploads/x1-1191.jpg" /><p>Gabinetes</p></a></li>
+          <li><a href="main.html?categoria=fuente"><img src="https://tse3.mm.bing.net/th/id/OIP.4bzPZS-K33FvsZvdMx7yCwHaGI?r=0&cb=thvnextc1&rs=1&pid=ImgDetMain&o=7&rm=3" /><p>Fuentes de energía</p></a></li>
+          <li><a href="main.html?categoria=fuente"><img src="https://tse3.mm.bing.net/th/id/OIP.4bzPZS-K33FvsZvdMx7yCwHaGI?r=0&cb=thvnextc1&rs=1&pid=ImgDetMain&o=7&rm=3" /><p>Fuentes de energía</p></a></li>
+          <li><a href="main.html?categoria=fuente"><img src="https://tse3.mm.bing.net/th/id/OIP.4bzPZS-K33FvsZvdMx7yCwHaGI?r=0&cb=thvnextc1&rs=1&pid=ImgDetMain&o=7&rm=3" /><p>Fuentes de energía</p></a></li>
+          <li><a href="main.html?categoria=fuente"><img src="https://tse3.mm.bing.net/th/id/OIP.4bzPZS-K33FvsZvdMx7yCwHaGI?r=0&cb=thvnextc1&rs=1&pid=ImgDetMain&o=7&rm=3" /><p>Fuentes de energía</p></a></li>
+          <li><a href="main.html?categoria=fuente"><img src="https://tse3.mm.bing.net/th/id/OIP.4bzPZS-K33FvsZvdMx7yCwHaGI?r=0&cb=thvnextc1&rs=1&pid=ImgDetMain&o=7&rm=3" /><p>Fuentes de energía</p></a></li>
+          <li><a href="main.html?categoria=fuente"><img src="https://tse3.mm.bing.net/th/id/OIP.4bzPZS-K33FvsZvdMx7yCwHaGI?r=0&cb=thvnextc1&rs=1&pid=ImgDetMain&o=7&rm=3" /><p>Fuentes de energía</p></a></li>
+          <!-- seguir agregando más categorías -->
+        </ul>
+      </nav>
+    </aside>
 
-        <header class="header">
-            <a href="../main/main.html">
-                <img
-                    src="https://images.vexels.com/media/users/3/136309/isolated/preview/c6539229ad5c57c313d95711a1e676db-logo-hamburguesa-comida-rapida.png" />
-                <p>Nombre</p>
-            </a>
-            <input />
-            <a href="../carrito/carrito.html">
-                <img src="https://cdn-icons-png.flaticon.com/512/3144/3144456.png" />
-                <p>Carrito</p>
-            </a>
-        </header>
+    <main class="contenedor-productos"></main>
+  </div>
 
-        <h2 id="bienvenida-texto" class="mensaje-bienvenida"></h2>
+  <!-- Modal para agregar unidades -->
+  <div class="modal" id="cantidad-modal" style="display: none;">
+    <div class="modal-contenido">
+      <h2>¿Cuántas unidades querés agregar?</h2>
+      <input type="number" id="cantidad-input" min="1" />
+      <div class="modal-botones">
+        <button id="confirmar-cantidad">Agregar</button>
+        <button id="cancelar-cantidad">Cancelar</button>
+      </div>
+    </div>
+  </div>
 
-        <div class="window">
-            <aside class="aside">
-                <nav>
-                    <ul class="">
-                        <li>
-                            <img src="https://i.pinimg.com/originals/30/3c/d5/303cd5c4e2169130a9ddd90bfab76982.png" />
-                            <p>Productos 1</p>
-                        </li>
-                        <li>
-                            <img src="https://i.pinimg.com/originals/30/3c/d5/303cd5c4e2169130a9ddd90bfab76982.png" />
-                            <p>Productos 2</p>
-                        </li>
-                        <li>
-                            <img src="https://i.pinimg.com/originals/30/3c/d5/303cd5c4e2169130a9ddd90bfab76982.png" />
-                            <p>Productos 3</p>
-                        </li>
-                        <li>
-                            <img src="https://i.pinimg.com/originals/30/3c/d5/303cd5c4e2169130a9ddd90bfab76982.png" />
-                            <p>Productos 3</p>
-                        </li>
-                        <li>
-                            <img src="https://i.pinimg.com/originals/30/3c/d5/303cd5c4e2169130a9ddd90bfab76982.png" />
-                            <p>Productos 3</p>
-                        </li>
-                        <li>
-                            <img src="https://i.pinimg.com/originals/30/3c/d5/303cd5c4e2169130a9ddd90bfab76982.png" />
-                            <p>Productos 3</p>
-                        </li>
-                        <li>
-                            <img src="https://i.pinimg.com/originals/30/3c/d5/303cd5c4e2169130a9ddd90bfab76982.png" />
-                            <p>Productos 3</p>
-                        </li>
-                        <li>
-                            <img src="https://i.pinimg.com/originals/30/3c/d5/303cd5c4e2169130a9ddd90bfab76982.png" />
-                            <p>Productos 3</p>
-                        </li>
-                        <li>
-                            <img src="https://i.pinimg.com/originals/30/3c/d5/303cd5c4e2169130a9ddd90bfab76982.png" />
-                            <p>Productos 3</p>
-                        </li>
-                    </ul>
-                </nav>
-            </aside>
-            <main class="contenedor-productos"> 
-            </main>
-        </div>
-
-
-        <!-- ventana modal para agregar unidades al agregar carrito -->
-        <div class="modal" id="cantidad-modal">
-            <div class="modal-contenido">
-                <h2>¿Cuántas unidades querés agregar?</h2>
-                <input type="number" id="cantidad-input" min="1" />
-                <div class="modal-botones">
-                    <button id="confirmar-cantidad">Agregar</button>
-                    <button id="cancelar-cantidad">Cancelar</button>
-                </div>
-            </div>
-        </div>
-
-
-    </body>
-    <script src="main.js"></script>
-    </html>
+  <script src="main.js"></script>
+</body>
+</html>

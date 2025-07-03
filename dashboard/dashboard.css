@@ -38,7 +38,7 @@
 }
 
 .navbar-links a:hover {
-  background-color: #ffbc0d;
+  background-color: #2C82C9;
   color: #000;
 }
 
@@ -49,7 +49,7 @@
 .header {
     display: flex;
     justify-content: space-around;
-    background-color: #ffbc0d;
+    background-color: #2C82C9;
     align-items: center;
     margin: 0px;
     padding: 1rem;
@@ -109,7 +109,7 @@
 .contenedor-productos a,
 button {
     border-radius: .5rem;
-    background-color: #ffbc0d;
+    background-color: #2C82C9;
     border: none;
     transition: 0.2s;
     color: white;
@@ -151,7 +151,7 @@ button:hover {
 .modal-botones button {
     margin: 0 0.5rem;
     padding: 0.6rem 1.2rem;
-    background-color: #ffbc0d;
+    background-color: #2C82C9;
     border: none;
     border-radius: 0.5rem;
     font-weight: bold;
@@ -160,7 +160,7 @@ button:hover {
 }
 
 .modal-botones button:hover {
-    background-color: #e0a800;
+    background-color: #2C82C9;
 }
 
 
