@@ -1,143 +1,34 @@
 //-----------------------------------------------------------------------------------
-// Array de productos
+// Variables globales
 //-----------------------------------------------------------------------------------
-
-var productos = [
-    {
-        "id":1,
-        "imagen": "https://http2.mlstatic.com/D_NQ_NP_2X_694877-MLA81724947491_122024-F.webp",
-        "nombre": "Gabinete Sentey H10 Black",
-        "precio": 6500,
-        "estado": true,
-        categoria: "gabinete"
-    },
-    {
-        "id":2,
-        "imagen": "https://http2.mlstatic.com/D_NQ_NP_2X_836870-MLU78390243787_082024-F.webp",
-        "nombre": "Gabinete Sentey H10 White",
-        "precio": 7200,
-        "estado": true,
-        categoria: "gabinete"
-    },
-    {
-        "id":3,
-        "imagen": "https://http2.mlstatic.com/D_NQ_NP_2X_685556-MLA80571225922_112024-F.webp",
-        "nombre": "Gabinete Thermaltake View 170Tg Black",
-        "precio": 5900,
-        "estado": true,
-        categoria: "gabinete"
-    },
-    {
-        "id":4,
-        "imagen": "https://http2.mlstatic.com/D_NQ_NP_657781-MLA80577394456_112024-O.webp",
-        "nombre": "Gabinete Thermaltake View 170Tg White",
-        "precio": 7100,
-        "estado": true,
-        categoria: "gabinete"
-    },
-    {
-        "id":5,
-        "imagen": "https://http2.mlstatic.com/D_NQ_NP_777806-MLA82988727033_032025-O.webp",
-        "nombre": "Gabinete Gamer Xyz Airone 200 Black",
-        "precio": 6200,
-        "estado": true,
-        categoria: "gabinete"
-    },
-    {
-        "id":6,
-        "imagen": "https://http2.mlstatic.com/D_NQ_NP_668800-MLA83791105681_042025-O.webp",
-        "nombre": "Gabinete Gamer Xyz Airone 200 White",
-        "precio": 6800,
-        "estado": true,
-        categoria: "gabinete"
-    },
-    {
-        "id":7,
-        "imagen": "https://http2.mlstatic.com/D_NQ_NP_947912-MLA81513301815_122024-O.webp",
-        "nombre": "Gabinete Deepcool Cg530 Black",
-        "precio": 7000,
-        "estado": true,
-        categoria: "gabinete"
-    },
-    {
-        "id":8,
-        "imagen": "https://http2.mlstatic.com/D_NQ_NP_623989-MLA83092072699_032025-O.webp",
-        "nombre": "Gabinete Deepcool Cg530 White",
-        "precio": 6950,
-        "estado": true,
-        categoria: "gabinete"
-    },
-    {
-        "id":9,
-        "imagen": "https://http2.mlstatic.com/D_NQ_NP_620207-MLA44205919157_112020-O.webp",
-        "nombre": "Gabinete Thermaltake S100 Black",
-        "precio": 7350,
-        "estado": true,
-        categoria: "gabinete"
-    },
-    {
-        "id":10,
-        "imagen": "https://http2.mlstatic.com/D_NQ_NP_865764-MLU70534918907_072023-O.webp",
-        "nombre": "Gabinete Thermaltake S100 White",
-        "precio": 7900,
-        "estado": true,
-        categoria: "gabinete"
-    },
-    {
-        "id":11,
-        "imagen": "https://static.libreopcion.com.ar/i/LIO_fuente-aureox-500w-arxe-500_size_h686_d33b27b509fd3027bf8e7dff1abda3e3.jpeg",
-        "nombre": "Fuente Aureox 500w Arxe-500",
-        "precio": 7900,
-        "estado": true,
-        categoria: "fuente"
-    },
-    {
-        "id":12,
-        "imagen": "https://static.libreopcion.com.ar/i/LIO_fuente-gamer-aureox-600w-psu-arxgp-600_size_h686_968f1160578d7b1381864382f958abf9.jpeg",
-        "nombre": "Fuente Gamer Aureox 600w Psu Arxgp-600",
-        "precio": 7900,
-        "estado": true,
-        categoria: "fuente"
-    },
-    {
-        "id":13,
-        "imagen": "https://static.libreopcion.com.ar/i/LIO_fuente-gamer-thermaltake-smart-white-500w-80-plus_size_h686_abb1f4b77f2e1bed84a3faec2d82ec97.jpeg",
-        "nombre": "Fuente Gamer Thermaltake Smart White 500w 80 Plus",
-        "precio": 7900,
-        "estado": true,
-        categoria: "fuente"
-    },
-    {
-        "id":14,
-        "imagen": "https://static.libreopcion.com.ar/i/LIO_fuente-gamer-evga-500w-br-80-bronze_size_h686_8d3188fac22989652ceabb8c50fe75cc.jpeg",
-        "nombre": "Fuente Gamer Evga 500w Br 80 Bronze",
-        "precio": 7900,
-        "estado": true,
-        categoria: "fuente"
-    },
-    {
-        "id":15,
-        "imagen": "https://static.libreopcion.com.ar/i/LIO_fuente-gamer-gigabyte-750w-pg5-80-plus-modular-gold_size_h686_d4eb23345a6d139b0caa69293b3b0aec.jpg",
-        "nombre": "Fuente Gamer Gigabyte 750w Pg5 80 Plus Modular Gold",
-        "precio": 7900,
-        "estado": true,
-        categoria: "fuente"
-    },
-];
-
-var contenedor = document.getElementsByClassName("contenedor-productos")[0];
-
-var carrito = [];
+let productos = [];
+let contenedor = document.getElementsByClassName("contenedor-productos")[0];
+let carrito = [];
 
 //-----------------------------------------------------------------------------------
-// Script para utilizar el nombre ingresado sin uso de LocalStorage
-// y para cargar productos por categoría desde la URL
+// Obtener productos desde el backend
 //-----------------------------------------------------------------------------------
+async function obtenerDatosProductos() {
+    try {
+        const respuesta = await fetch("http://localhost:3000/products");
+        const datos = await respuesta.json();
+        productos = datos.payload;
 
+        const params = new URLSearchParams(window.location.search);
+        const categoria = params.get("categoria");
+
+        init(categoria);
+    } catch (error) {
+        console.error("Error al obtener productos:", error);
+    }
+}
+
+//-----------------------------------------------------------------------------------
+// Script de bienvenida y carga inicial
+//-----------------------------------------------------------------------------------
 window.addEventListener("DOMContentLoaded", () => {
     const params = new URLSearchParams(window.location.search);
     const nombre = params.get("nombre");
-    const categoria = params.get("categoria");
 
     if (nombre) {
         const bienvenida = document.getElementById("bienvenida-texto");
@@ -146,18 +37,13 @@ window.addEventListener("DOMContentLoaded", () => {
         }
     }
 
-    init(categoria); // Se pasa la categoría (si existe) al init
+    obtenerDatosProductos(); // Se cargan desde el backend
 });
 
 //-----------------------------------------------------------------------------------
 // Inicialización del sistema
 //-----------------------------------------------------------------------------------
-
 function init(categoria) {
-    /*
-    Llama a filtrado por categoría si está definida
-    Sino, carga todos los productos directamente
-    */
     if (categoria) {
         filtradoCategoria(categoria);
     } else {
@@ -168,12 +54,7 @@ function init(categoria) {
 //-----------------------------------------------------------------------------------
 // Generador de productos en HTML
 //-----------------------------------------------------------------------------------
-
 function generarProductos(productos) {
-    /*
-    Primero elimina todos los nodos existentes dentro del contenedor
-    Luego recorre el array de productos y crea dinámicamente las tarjetas
-    */
     while (contenedor.hasChildNodes()) {
         contenedor.removeChild(contenedor.firstChild);
     }
@@ -192,7 +73,6 @@ function generarProductos(productos) {
             let button = document.createElement("button");
 
             div.className = "card-producto";
-
             img.src = productos[i].imagen;
             h3.textContent = productos[i].nombre;
             p.textContent = "$" + productos[i].precio;
@@ -214,27 +94,17 @@ function generarProductos(productos) {
 }
 
 //-----------------------------------------------------------------------------------
-// Filtro de productos por categoría
+// Filtro por categoría
 //-----------------------------------------------------------------------------------
-
 function filtradoCategoria(categoria) {
-    /*
-    Filtra los productos por la categoría que se pasa por parámetro
-    y los pasa a generarProductos para que los renderice
-    */
     const filtrados = productos.filter(p => p.categoria === categoria && p.estado);
     generarProductos(filtrados);
 }
 
 //-----------------------------------------------------------------------------------
-// Filtro de productos por texto ingresado (buscador)
+// Filtro por texto en buscador
 //-----------------------------------------------------------------------------------
-
 function filtradoProductos(string) {
-    /*
-    Filtra por NOMBRE dentro de la categoría activa, si existe.
-    Si no hay categoría, filtra sobre todos los productos.
-    */
     const params = new URLSearchParams(window.location.search);
     const categoria = params.get("categoria");
 
@@ -244,7 +114,7 @@ function filtradoProductos(string) {
         elementos = productos.filter(p => p.categoria === categoria && p.estado);
     }
 
-    if (string != null && string !== "") {
+    if (string && string !== "") {
         elementos = elementos.filter(el => el.nombre.toLowerCase().includes(string.toLowerCase()));
     }
 
@@ -252,14 +122,9 @@ function filtradoProductos(string) {
 }
 
 //-----------------------------------------------------------------------------------
-// Modal para seleccionar cantidad al agregar al carrito
+// Modal de cantidad para agregar al carrito
 //-----------------------------------------------------------------------------------
-
 function agregarCarrito(productoAgregar) {
-    /*
-    Muestra un modal para ingresar la cantidad de productos a agregar
-    Luego actualiza el carrito en localStorage
-    */
     const modal = document.getElementById("cantidad-modal");
     const input = document.getElementById("cantidad-input");
     const confirmar = document.getElementById("confirmar-cantidad");
@@ -268,16 +133,11 @@ function agregarCarrito(productoAgregar) {
     modal.style.display = "flex";
     input.value = "";
 
-    // Confirmar
     confirmar.onclick = function () {
         let cantidad = parseInt(input.value, 10);
 
         if (!isNaN(cantidad) && cantidad > 0) {
-            let item = {
-                ...productoAgregar,
-                cantidad: cantidad
-            };
-
+            let item = { ...productoAgregar, cantidad };
             let productosGuardados = JSON.parse(localStorage.getItem("producto")) || [];
 
             let index = productosGuardados.findIndex(p => p.nombre === item.nombre);
@@ -294,7 +154,6 @@ function agregarCarrito(productoAgregar) {
         }
     };
 
-    // Cancelar
     cancelar.onclick = function () {
         modal.style.display = "none";
     };
