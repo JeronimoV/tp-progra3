@@ -1,126 +1,218 @@
 //-----------------------------------------------------------------------------------
-// Obtención de productos desde el backend
+// Variables globales y referencias a elementos DOM
 //-----------------------------------------------------------------------------------
 
 let productos = [];
 
+const contenedor = document.getElementsByClassName("contenedor-productos")[0];
+const modal = document.getElementById("estado-modal");
+const confirmarBtn = document.getElementById("confirmar-estado");
+const cancelarBtn = document.getElementById("cancelar-estado");
+const searchInput = document.getElementById("search-input");
+
+let productoParaCambiarEstado = null; // Producto que se está activando/desactivando
+
+//-----------------------------------------------------------------------------------
+// Obtención de productos desde el backend
+//-----------------------------------------------------------------------------------
+
 document.addEventListener("DOMContentLoaded", obtenerDatosProductos);
 
 async function obtenerDatosProductos() {
-    try {
-        const respuesta = await fetch("http://localhost:3000/products");
-        const datos = await respuesta.json();
+  try {
+    const respuesta = await fetch("http://localhost:3000/products");
+    const datos = await respuesta.json();
 
-        productos = datos.payload || []; // Aseguramos que sea un array
+    productos = datos.payload || []; // Asegurar que sea un array
 
-        init();
-    } catch (error) {
-        console.error("Error al obtener productos:", error);
-    }
+    init();
+  } catch (error) {
+    console.error("Error al obtener productos:", error);
+  }
 }
 
 //-----------------------------------------------------------------------------------
-// Inicialización del sistema
+// Inicialización del sistema (carga productos y asigna eventos)
 //-----------------------------------------------------------------------------------
 
 function init() {
-    filtradoProductos();
+  filtradoProductos();
+
+  // Listener para búsqueda con debounce
+  let debounceTimeout;
+  searchInput.addEventListener("input", () => {
+    clearTimeout(debounceTimeout);
+    debounceTimeout = setTimeout(() => {
+      filtradoProductos(searchInput.value.trim());
+    }, 300);
+  });
 }
 
 //-----------------------------------------------------------------------------------
 // Generador de productos en HTML
 //-----------------------------------------------------------------------------------
 
-function generarProductos(productos) {
-    const contenedor = document.getElementsByClassName("contenedor-productos")[0];
+function generarProductos(listaProductos) {
+  // Limpiar contenedor
+  while (contenedor.hasChildNodes()) {
+    contenedor.removeChild(contenedor.firstChild);
+  }
 
-    while (contenedor.hasChildNodes()) {
-        contenedor.removeChild(contenedor.firstChild);
-    }
+  // Botón para crear producto
+  const crearLink = document.createElement("a");
+  crearLink.textContent = "Crear Producto";
+  crearLink.href = "../modeladoProducto/modelado.html";
+  crearLink.className = "crear-producto-btn";
+  contenedor.appendChild(crearLink);
 
-    const creacion = document.createElement("a");
-    creacion.textContent = "Crear Producto";
-    creacion.href = "../modeladoProducto/modelado.html";
-    contenedor.appendChild(creacion);
+  // Crear cada tarjeta de producto
+  listaProductos.forEach((producto, i) => {
+    const div = document.createElement("article");
+    div.className = producto.estado ? "card-producto" : "card-producto-inactivo";
 
-    productos.forEach((producto, i) => {
-        const div = document.createElement("article");
-        const img = document.createElement("img");
-        const h3 = document.createElement("h3");
-        const p = document.createElement("p");
-        const editarBtn = document.createElement("a");
-        const estadoBtn = document.createElement("button");
+    const img = document.createElement("img");
+    img.src = producto.imagen;
+    img.alt = producto.nombre;
 
-        img.src = producto.imagen;
-        h3.textContent = producto.nombre;
-        p.textContent = "$" + producto.precio;
-        editarBtn.textContent = "Editar";
-        editarBtn.href = `../editadoProducto/editado.html?id=${producto.id}`;
-        editarBtn.name = i;
+    const h3 = document.createElement("h3");
+    h3.textContent = producto.nombre;
 
-        estadoBtn.textContent = producto.estado ? "Desactivar" : "Activar";
-        div.className = producto.estado ? "card-producto" : "card-producto-inactivo";
-        estadoBtn.name = i;
+    const pPrecio = document.createElement("p");
+    pPrecio.textContent = "$" + producto.precio.toFixed(2);
 
-        editarBtn.addEventListener("click", function (event) {
-            mostrarCarrito(productos[event.target.name]);
-        });
+    const pCategoria = document.createElement("p");
 
-        estadoBtn.addEventListener("click", function (event) {
-            modalConfirmacion(productos[event.target.name]);
-        });
+    // Botón editar (link)
+    const editarBtn = document.createElement("a");
+    editarBtn.textContent = "Editar";
+    editarBtn.href = `../editadoProducto/editado.html?id=${producto.id}`;
+    editarBtn.name = i;
 
-        div.appendChild(img);
-        div.appendChild(h3);
-        div.appendChild(p);
-        div.appendChild(editarBtn);
-        div.appendChild(estadoBtn);
-        contenedor.appendChild(div);
-    });
+    // Botón activar/desactivar
+    const estadoBtn = document.createElement("button");
+    estadoBtn.textContent = producto.estado ? "Desactivar" : "Activar";
+    estadoBtn.name = i;
+
+    // Botón eliminar
+    const eliminarBtn = document.createElement("button");
+    eliminarBtn.textContent = "Eliminar";
+    eliminarBtn.name = i;
+
+    // Eventos
+    estadoBtn.addEventListener("click", () => modalConfirmacion(producto));
+    eliminarBtn.addEventListener("click", () => eliminarProducto(producto));
+    
+    // Agregar elementos al div
+    div.appendChild(img);
+    div.appendChild(h3);
+    div.appendChild(pPrecio);
+    div.appendChild(pCategoria);
+    div.appendChild(editarBtn);
+    div.appendChild(estadoBtn);
+    div.appendChild(eliminarBtn);
+
+    // Agregar tarjeta al contenedor
+    contenedor.appendChild(div);
+  });
 }
 
 //-----------------------------------------------------------------------------------
-// Filtro de productos por texto ingresado
+// Filtrado de productos por texto ingresado en la búsqueda
 //-----------------------------------------------------------------------------------
 
-function filtradoProductos(string = "") {
-    let filtrados = productos;
+function filtradoProductos(texto = "") {
+  let filtrados = productos;
 
-    if (string) {
-        filtrados = productos.filter(el =>
-            el.nombre.toLowerCase().includes(string.toLowerCase())
-        );
-    }
+  if (texto) {
+    filtrados = productos.filter(producto =>
+      producto.nombre.toLowerCase().includes(texto.toLowerCase())
+    );
+  }
 
-    generarProductos(filtrados);
+  generarProductos(filtrados);
 }
 
 //-----------------------------------------------------------------------------------
-// Activar y desactivar productos
-//-----------------------------------------------------------------------------------
-
-function activarYDesactivar(producto) {
-    producto.estado = !producto.estado;
-    generarProductos(productos);
-}
-
-//-----------------------------------------------------------------------------------
-// Modal de confirmación
+// Modal de confirmación para activar/desactivar producto
 //-----------------------------------------------------------------------------------
 
 function modalConfirmacion(producto) {
-    const modal = document.getElementById("estado-modal");
-    const confirmar = document.getElementById("confirmar-estado");
-    const cancelar = document.getElementById("cancelar-estado");
+  productoParaCambiarEstado = producto;
 
-    modal.style.display = "flex";
+  modal.style.display = "flex";
 
-    confirmar.onclick = function () {
-        activarYDesactivar(producto);
-        modal.style.display = "none";
-    };
+  confirmarBtn.onclick = () => {
+    cambiarEstadoProducto(productoParaCambiarEstado);
+    modal.style.display = "none";
+  };
 
-    cancelar.onclick = function () {
-        modal.style.display = "none";
-    };
+  cancelarBtn.onclick = () => {
+    productoParaCambiarEstado = null;
+    modal.style.display = "none";
+  };
+}
+
+//-----------------------------------------------------------------------------------
+// Cambiar estado de un producto y actualizar backend
+//-----------------------------------------------------------------------------------
+
+async function cambiarEstadoProducto(producto) {
+  const nuevoEstado = !producto.estado;
+
+  try {
+    const res = await fetch(`http://localhost:3000/products/${producto.id}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        imagen: producto.imagen,
+        nombre: producto.nombre,
+        precio: producto.precio,
+        estado: nuevoEstado,
+        categoria: producto.categoria,
+      }),
+    });
+
+    const data = await res.json();
+
+    if (res.ok) {
+      producto.estado = nuevoEstado; // Actualizar localmente
+      filtradoProductos(searchInput.value.trim());
+      alert(`Producto ${nuevoEstado ? "activado" : "desactivado"} con éxito.`);
+    } else {
+      alert("Error al cambiar estado: " + (data.error || "Error desconocido"));
+    }
+  } catch (error) {
+    console.error("Error al cambiar estado:", error);
+    alert("No se pudo conectar con el servidor.");
+  }
+}
+
+//-----------------------------------------------------------------------------------
+// Eliminar producto con confirmación y actualización backend
+//-----------------------------------------------------------------------------------
+
+async function eliminarProducto(producto) {
+  const confirmacion = confirm(`¿Seguro quieres eliminar el producto "${producto.nombre}"? Esta acción es irreversible.`);
+
+  if (!confirmacion) return;
+
+  try {
+    const res = await fetch(`http://localhost:3000/products/${producto.id}`, {
+      method: "DELETE",
+    });
+
+    const data = await res.json();
+
+    if (res.ok) {
+      // Remover localmente
+      productos = productos.filter(p => p.id !== producto.id);
+      filtradoProductos(searchInput.value.trim());
+      alert("Producto eliminado con éxito.");
+    } else {
+      alert("Error al eliminar producto: " + (data.error || "Error desconocido"));
+    }
+  } catch (error) {
+    console.error("Error al eliminar producto:", error);
+    alert("No se pudo conectar con el servidor.");
+  }
 }

@@ -1,54 +1,63 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="dashboard.css">
-    <title>Document</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="dashboard.css" />
+  <title>Dashboard Productos</title>
 </head>
 
 <body>
 
-    <nav class="navbar">
-        <ul class="navbar-links">
-            <li><a href="../bienvenida/bienvenida.html">Bienvenida</a></li>
-            <li><a href="../main/main.html">Inicio</a></li>
-            <li><a href="../carrito/carrito.html">Carrito</a></li>
-            <li><a href="../dashboard/dashboard.html">Dashboard</a></li>
-            <li><a href="../editadoProducto/editado.html">Editar Producto</a></li>
-            <li><a href="../modeladoProducto/modelado.html">Modelado</a></li>
-        </ul>
-        <div class="navbar-nombres">
-            <span>Tiziano Gonzalez</span>
-            <span>Jeronimo Vilar</span>
-        </div>
-    </nav>
+  <nav class="navbar">
+    <ul class="navbar-links">
+      <li><a href="../bienvenida/bienvenida.html">Bienvenida</a></li>
+      <li><a href="../main/main.html">Inicio</a></li>
+      <li><a href="../carrito/carrito.html">Carrito</a></li>
+      <li><a href="../dashboard/dashboard.html">Dashboard</a></li>
+      <li><a href="../editadoProducto/editado.html">Editar Producto</a></li>
+      <li><a href="../modeladoProducto/modelado.html">Modelado</a></li>
+    </ul>
+    <div class="navbar-nombres">
+      <span>Tiziano Gonzalez</span>
+      <span>Jeronimo Vilar</span>
+    </div>
+  </nav>
 
-    <header class="header">
+  <header class="header">
     <a href="../main/main.html">
       <img src="https://static.vecteezy.com/system/resources/previews/047/443/035/original/computer-technology-logo-template-designs-computer-service-logo-template-design-concept-free-vector.jpg" />
       <p>G&V Computación</p>
     </a>
+
+    <input
+      type="text"
+      id="search-input"
+      placeholder="Buscar productos..."
+      autocomplete="off"
+    />
+
     <a href="../carrito/carrito.html">
       <img src="https://cdn-icons-png.flaticon.com/512/3144/3144456.png" />
       <p>Carrito</p>
     </a>
-    </header>
-    <main class="contenedor-productos">
-    </main>
+  </header>
 
-    <!-- ventana modal para confirmar activado/desactivado -->
-    <div class="modal" id="estado-modal">
-        <div class="modal-contenido">
-            <h2>¿Seguro quieres Activar/Desactivar el producto?</h2>
-            <div class="modal-botones">
-                <button id="confirmar-estado">Si</button>
-                <button id="cancelar-estado">No</button>
-            </div>
-        </div>
+  <main class="contenedor-productos"></main>
+
+  <!-- ventana modal para confirmar activado/desactivado -->
+  <div class="modal" id="estado-modal">
+    <div class="modal-contenido">
+      <h2>¿Seguro quieres Activar/Desactivar el producto?</h2>
+      <div class="modal-botones">
+        <button id="confirmar-estado">Si</button>
+        <button id="cancelar-estado">No</button>
+      </div>
     </div>
+  </div>
+
+  <script src="dashboard.js"></script>
 </body>
-<script src="dashboard.js"></script>
 
 </html>
