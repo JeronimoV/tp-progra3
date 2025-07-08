@@ -1,38 +1,80 @@
-cargadoDeInfo()
-function cargadoDeInfo(){
-    let id = window.location.href.split("?id=")[1];
-    //Aca llamaria al servidor para recuperar info del servidor
-    //////////////////////////////////////
-    let producto = {
-        "imagen":"url imagen",
-        "nombre":"Nombre de la hamburgesa anashei",
-        "precio":777,
-        "estado": true
-    }
-    //////////////////////////////////////
-    //Borrar esto de arriba luego
+const form = document.querySelector(".form");
+const id = new URLSearchParams(window.location.search).get("id");
 
-    let link = document.getElementsByClassName("link-imagen");
-    let nombre = document.getElementsByClassName("nombre-producto");
-    let precio = document.getElementsByClassName("precio-producto"); 
+const imagenInput = document.querySelector(".link-imagen");
+const nombreInput = document.querySelector(".nombre-producto");
+const precioInput = document.querySelector(".precio-producto");
+const categoriaInput = document.querySelector(".categoria-producto"); // NUEVO
 
-    link[0].value = producto.imagen;
-    nombre[0].value = producto.nombre;
-    precio[0].value = producto.precio;
-    
-}
+window.addEventListener("DOMContentLoaded", cargadoDeInfo);
 
-function editarProducto(){
-    let producto = {
-        "imagen":"",
-        "nombre":"",
-        "precio":0,
-        "estado": true
+async function cargadoDeInfo() {
+  if (!id) {
+    alert("❌ No se especificó el ID del producto.");
+    return;
+  }
+
+  try {
+    const response = await fetch(`http://localhost:3000/products/${id}`);
+    const data = await response.json();
+
+    if (response.ok) {
+      const producto = data.payload[0];
+      imagenInput.value = producto.imagen;
+      nombreInput.value = producto.nombre;
+      precioInput.value = producto.precio;
+      categoriaInput.value = producto.categoria || ""; // ASIGNAR CATEGORÍA REAL
+    } else {
+      alert("⚠️ No se pudo cargar el producto.");
     }
 
-    producto[imagen] = document.getElementsByClassName("link-imagen");
-    producto[nombre] = document.getElementsByClassName("nombre-producto");
-    producto[precio] = document.getElementsByClassName("precio-producto");
-
-    //Aca iria la logica de enviar el producto al servidor para su edicion
+  } catch (error) {
+    console.error("Error al cargar producto:", error);
+    alert("⚠️ Error de conexión al cargar el producto.");
+  }
 }
+
+form.addEventListener("submit", async function (e) {
+  e.preventDefault();
+
+  const imagen = imagenInput.value.trim();
+  const nombre = nombreInput.value.trim();
+  const precio = parseFloat(precioInput.value);
+  const categoria = categoriaInput.value.trim(); // NUEVO
+
+  if (!imagen || !nombre || !categoria || isNaN(precio) || precio <= 0) {
+    alert("⚠️ Completá los campos correctamente.");
+    return;
+  }
+
+  const productoEditado = {
+    imagen,
+    nombre,
+    precio,
+    estado: true,
+    categoria
+  };
+
+  try {
+    const response = await fetch(`http://localhost:3000/products/${id}`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify(productoEditado)
+    });
+
+    const data = await response.json();
+
+    if (response.ok) {
+      alert("✅ Producto editado con éxito.");
+      window.location.href = "../dashboard/dashboard.html?editado=true";
+    } else {
+      alert("❌ No se pudo editar el producto: " + data.error);
+    }
+
+  } catch (error) {
+    console.error("Error al editar:", error);
+    alert("⚠️ Error de conexión al editar.");
+  }
+});
