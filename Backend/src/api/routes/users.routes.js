@@ -11,12 +11,13 @@ usersRoutes.get("/", async(req, res) =>{
         let sql = "SELECT * FROM users";
         const [rows] = await connection.query(sql);
     
-        res.status(200).json({
+        res.status(404).json({
             payload: rows,
             message: rows.length === 0 ? "No se encontraron usuarios" : "Usuarios encontrados"
         });
+
     
-    } catch (error) {
+    } catch (error) { 
         console.error("Error obteniendo usuarios", error)
         res.status(500).json({
             error: "Error interno del servidor al obtener usuarios"
@@ -24,43 +25,48 @@ usersRoutes.get("/", async(req, res) =>{
     }
 })
 
-usersRoutes.get("/:id", verifyID, async(req, res) =>{
+usersRoutes.get("/:nombre", async(req, res) =>{
 
     try {
-
-        let { id } = req.params;
+        
+        let { nombre } = req.params;       
     
-        let sql = `SELECT * FROM users where id = ?`;
+        let sql = `SELECT * FROM users where nombre = ?`;
     
-        let [rows] = await connection.query(sql, [id]);
+        let [rows] = await connection.query(sql, [nombre]);
     
         if(rows.length === 0) {
             return res.status(404).json({
-                error: `No se encontró el usuario con id: ${id}`
+                error: `No se encontró el usuario con nombre: ${nombre}`,
+                find: false
             })
         }
     
         res.status(200).json({
-            payload: rows
+            payload: rows,
+            find:true
         })
     } catch (error) {
-        console.error(`Error al obtener usuario con id ${id}`, error.message);
+        console.error(`Error al obtener usuario con nombre ${nombre}`, error.message);
 
         res.status(500).json({
-            error: "Error interno al obtener un usuario por id"
+            error: "Error interno al obtener un usuario por nombre"
         })
     }
 })
 
 usersRoutes.post("/", async (req,res) => {
     try {
+        console.log("aca si entre papu");
+        
         let {nombre, contraseña, admin} = req.body;
         let sql = `INSERT INTO users (nombre, contraseña, admin) VALUES (?,?,?)`
 
         let [rows] = await connection.query(sql, [nombre, contraseña, admin])
 
         res.status(200).json({
-            payload: "Usuario creado"
+            payload: "Usuario creado",
+            id: rows.insertId
         })
     } catch (error) {
         console.error(`Error al crear usuario`, error.message);

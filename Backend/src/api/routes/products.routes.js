@@ -28,7 +28,6 @@ productsRoutes.get("/", async(req, res) =>{
 // Segundo enndpoint GET by id, traer producto por su id
 
 //NOTA PARA JERITO: CAPAZ SIRVE DE ALGO, EL ENDPOINT DE ARRIBA SI LO USE PARA YA REMPLAZAR EL JSON, este endpoint lo hice por las dudas nomás 
-
 //DE JERO PARA TIZI: GRACIAS AMIGO, LO APRECIO MUCHO
 productsRoutes.get("/:id", verifyID,async(req, res) =>{
 
@@ -58,6 +57,34 @@ productsRoutes.get("/:id", verifyID,async(req, res) =>{
     }
 })
 
+productsRoutes.get("/categoria/:id",async(req, res) =>{
+
+    try {
+
+        let { id } = req.params;
+    
+        let sql = `SELECT * FROM products where categoria = ?`;
+    
+        let [rows] = await connection.query(sql, [id]);
+    
+        if(rows.length === 0) {
+            return res.status(404).json({
+                error: `No se encontró el producto con categoria: ${id}`
+            })
+        }
+    
+        res.status(200).json({
+            payload: rows
+        })
+    } catch (error) {
+        console.error(`Error al obtener producto con categoria ${id}`, error.message);
+
+        res.status(500).json({
+            error: "Error interno al obtener un producto por categoria"
+        })
+    }
+})
+
 productsRoutes.post("/", async (req,res) => { //Hola Tizi, este crea productos
     try {
         let {imagen, nombre, precio, categoria} = req.body;
@@ -66,8 +93,7 @@ productsRoutes.post("/", async (req,res) => { //Hola Tizi, este crea productos
         let [rows] = await connection.query(sql, [imagen, nombre, precio, true, categoria])
 
         res.status(200).json({
-            payload: "Producto creado con exitó",
-            productId: rows.insertId
+            payload: "Producto creado"
         })
     } catch (error) {
         console.error(`Error al crear producto`, error.message);
@@ -104,31 +130,6 @@ productsRoutes.post("/:id", verifyID,async(req,res) => { // Hola tizi, soy yo de
         })
     }
 })
-
-productsRoutes.get("/", async (req, res) => {
-  try {
-    let { search } = req.query;
-    let sql = "SELECT * FROM products";
-    let params = [];
-
-    if (search) {
-      sql += " WHERE nombre LIKE ?";
-      params.push(`%${search}%`);
-    }
-
-    const [rows] = await connection.query(sql, params);
-
-    res.status(200).json({
-      payload: rows,
-      message: rows.length === 0 ? "No se encontraron productos" : "Productos encontrados"
-    });
-  } catch (error) {
-    console.error("Error obteniendo productos", error);
-    res.status(500).json({
-      error: "Error interno del servidor al obtener productos"
-    });
-  }
-});
 
 productsRoutes.delete("/:id", verifyID, async(req,res) => {
     try {
