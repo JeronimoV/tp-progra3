@@ -46,6 +46,7 @@ function generarProductos(productos){
         let btnMenos = document.createElement("button");
         let btnMas = document.createElement("button");
         let btnEliminar = document.createElement("button");
+        let btnComprar = document.createElement("button");
 
         div.className = "card-producto";
 
@@ -79,6 +80,12 @@ function generarProductos(productos){
             guardarYActualizar();
         });
 
+        // Boton comprar
+        btnComprar.textContent = "Comprar";
+        btnComprar.addEventListener("click", () => {
+            comprarProductos(productos[i].cantidad, productos[i].id)
+        })
+
         // Total parcial
         total += productos[i].precio * productos[i].cantidad;
 
@@ -89,6 +96,7 @@ function generarProductos(productos){
         div.appendChild(btnMenos);
         div.appendChild(btnMas);
         div.appendChild(btnEliminar);
+        div.appendChild(btnComprar);
 
         contenedor.appendChild(div);
     }
@@ -99,6 +107,29 @@ function generarProductos(productos){
     totalDiv.textContent = "Total: $" + total;
     contenedor.appendChild(totalDiv);
 }
+//-----------------------------------------------------------------------------------
+
+async function comprarProductos(cantidad, id_productos){
+    console.log(id_productos);
+    
+    let id_usuario = localStorage.getItem("id_usuario");
+    let response = await fetch("http://localhost:3000/ventas", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        id_usuario,
+        id_productos,
+        cantidad,
+      })
+    });
+    response = await response.json();
+    console.log(response);
+    
+    alert(response.payload);
+}
+
 
 //-----------------------------------------------------------------------------------
 

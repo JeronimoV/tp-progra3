@@ -6,6 +6,13 @@ let verifyID = (req, res, next) =>{
     next()
 }
 
+let verifyBody = (req, res, next) => {
+    let body = req.params;
+    console.log(body.length);
+    next()
+}
+
 export {
-    verifyID
+    verifyID,
+    verifyBody
 }
