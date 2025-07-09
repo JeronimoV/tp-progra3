@@ -1,0 +1,149 @@
+.navbar {
+  background-color: #333;
+  padding: 1rem 2rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.navbar-nombres {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  color: white;
+  font-size: 0.95rem;
+  font-weight: bold;
+  gap: 0.2rem;
+}
+
+.navbar-links {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar-links li {
+  display: inline;
+}
+
+.navbar-links a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1.1rem;
+  padding: 0.5rem 1rem;
+  transition: background-color 0.3s, color 0.3s;
+  border-radius: 5px;
+}
+
+.navbar-links a:hover {
+  background-color: #2C82C9;
+  color: #000;
+}
+
+* {
+    margin: 0;
+}
+
+.header {
+    display: flex;
+    justify-content: space-around;
+    background-color: #2C82C9;
+    align-items: center;
+    margin: 0px;
+    padding: 1rem;
+    height: 2rem;
+}
+
+.header a {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    text-decoration: none;
+    color: white;
+}
+
+
+.header input {
+    width: 30rem;
+    height: 2rem;
+}
+
+.header p {
+    text-align: center;
+}
+
+.header img {
+    height: 2.5rem;
+}
+
+form {
+    margin-top: 17rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+form button {
+    width: 20rem;
+    height: 2.5rem;
+}
+
+form input {
+    width: 20rem;
+    height: 2.5rem;
+}
+
+
+
+@media (max-width: 600px) {
+  .navbar-links {
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+  }
+
+  .header {
+    flex-direction: column;
+    height: auto;
+    gap: 0.5rem;
+  }
+
+  .header a {
+    flex-direction: row;
+    gap: 0.5rem;
+  }
+
+  .header img {
+    height: 2rem;
+  }
+
+  .header input {
+    width: 90vw;
+    max-width: 300px;
+    height: 2rem;
+  }
+
+  form {
+    margin-top: 2rem;
+    width: 100%;
+    max-width: 320px;
+    margin-left: auto;
+    margin-right: auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0 1rem; /* espacio lateral */
+  }
+
+  form input,
+  form button {
+    width: 100%;
+    height: 2.5rem;
+  }
+} 

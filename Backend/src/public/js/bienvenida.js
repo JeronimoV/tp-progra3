@@ -40,7 +40,7 @@ form.addEventListener("submit", async (e) => {
         }
 
         // Redireccionamos con el nombre en la URL
-        window.location.href = `../main/main.html?nombre=${encodeURIComponent(username)}`;
+        window.location.href = `/main?nombre=${encodeURIComponent(username)}`;
 
     } catch (error) {
         console.error("Error en login:", error);

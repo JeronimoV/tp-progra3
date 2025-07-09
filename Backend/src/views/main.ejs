@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/css/main.css" />
+  <title>Productos</title>
+</head>
+
+<body>
+
+  <nav class="navbar">
+    <ul class="navbar-links">
+      <li><a href="/bienvenida">Bienvenida</a></li>
+      <li><a href="/main">Inicio</a></li>
+      <li><a href="/dashboard">Dashboard</a></li>
+      <li><a href="/modelado">Modelado</a></li>
+    </ul>
+    <div class="navbar-nombres">
+      <span>Tiziano Gonzalez</span>
+      <span>Jeronimo Vilar</span>
+    </div>
+  </nav>
+
+  <header class="header">
+    <a href="/main">
+      <img
+        src="https://static.vecteezy.com/system/resources/previews/047/443/035/original/computer-technology-logo-template-designs-computer-service-logo-template-design-concept-free-vector.jpg" />
+      <p>G&V Computación</p>
+    </a>
+    <input placeholder="Buscar productos..." oninput="filtradoProductos(this.value)" />
+    <a href="/carrito">
+      <img src="https://cdn-icons-png.flaticon.com/512/3144/3144456.png" />
+      <p>Carrito</p>
+    </a>
+  </header>
+
+  <h2 id="bienvenida-texto" class="mensaje-bienvenida"></h2>
+
+  <div class="window">
+    <aside class="aside">
+      <nav>
+        <ul>
+          <li>
+            <a href="/main.html?categoria=gabinete">
+              <img src="https://katech.com.ar/wp-content/uploads/x1-1191.jpg" />
+              <p>Gabinetes</p>
+            </a>
+          </li>
+          <li>
+            <a href="/main.html?categoria=fuente">
+              <img src="https://tse3.mm.bing.net/th/id/OIP.4bzPZS-K33FvsZvdMx7yCwHaGI?r=0&cb=thvnextc1&rs=1&pid=ImgDetMain&o=7&rm=3" />
+              <p>Fuentes de energía</p>
+            </a>
+          </li>
+        </ul>
+      </nav>
+    </aside>
+
+    <main class="contenedor-productos"></main>
+  </div>
+
+  <!-- Modal para agregar unidades -->
+  <div class="modal" id="cantidad-modal" style="display: none;">
+    <div class="modal-contenido">
+      <h2>¿Cuántas unidades querés agregar?</h2>
+      <input type="number" id="cantidad-input" min="1" />
+      <div class="modal-botones">
+        <button id="confirmar-cantidad">Agregar</button>
+        <button id="cancelar-cantidad">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="/js/main.js"></script>
+</body>
+
+</html>
