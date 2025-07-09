@@ -3,10 +3,10 @@
 //-----------------------------------------------------------------------------------
 let productos = [];
 let contenedor = document.getElementsByClassName("contenedor-productos")[0];
-let carrito = [];
+let carrito = []; // Array auxiliar (no usado directamente en este archivo)
 
 //-----------------------------------------------------------------------------------
-// Obtener productos desde el backend
+// Obtener productos desde el backend y luego iniciar la interfaz
 //-----------------------------------------------------------------------------------
 async function obtenerDatosProductos() {
     try {
@@ -14,6 +14,7 @@ async function obtenerDatosProductos() {
         const datos = await respuesta.json();
         productos = datos.payload;
 
+        // Si hay una categoría en la URL, se filtra por ella
         const params = new URLSearchParams(window.location.search);
         const categoria = params.get("categoria");
 
@@ -24,7 +25,7 @@ async function obtenerDatosProductos() {
 }
 
 //-----------------------------------------------------------------------------------
-// Script de bienvenida y carga inicial
+// Mostrar mensaje de bienvenida y cargar productos al iniciar la página
 //-----------------------------------------------------------------------------------
 window.addEventListener("DOMContentLoaded", () => {
     const params = new URLSearchParams(window.location.search);
@@ -45,7 +46,7 @@ window.addEventListener("DOMContentLoaded", () => {
 });
 
 //-----------------------------------------------------------------------------------
-// Inicialización del sistema
+// Inicializa el sistema: muestra productos o filtra por categoría
 //-----------------------------------------------------------------------------------
 function init(categoria) {
     if (categoria) {
@@ -56,18 +57,21 @@ function init(categoria) {
 }
 
 //-----------------------------------------------------------------------------------
-// Generador de productos en HTML
+// Renderiza los productos en pantalla
 //-----------------------------------------------------------------------------------
 function generarProductos(productos) {
+    // Limpiar el contenedor antes de agregar productos
     while (contenedor.hasChildNodes()) {
         contenedor.removeChild(contenedor.firstChild);
     }
 
+    // Mostrar mensaje si no hay productos
     if (productos.length === 0) {
         contenedor.innerHTML = "<p>No se encontraron productos.</p>";
         return;
     }
 
+    // Crear tarjetas HTML para cada producto activo
     for (let i = 0; i < productos.length; i++) {
         if (productos[i].estado) {
             let div = document.createElement("article");
@@ -98,7 +102,7 @@ function generarProductos(productos) {
 }
 
 //-----------------------------------------------------------------------------------
-// Filtro por categoría
+// Filtra productos por categoría (URL param)
 //-----------------------------------------------------------------------------------
 function filtradoCategoria(categoria) {
     const filtrados = productos.filter(p => p.categoria === categoria && p.estado);
@@ -106,7 +110,7 @@ function filtradoCategoria(categoria) {
 }
 
 //-----------------------------------------------------------------------------------
-// Filtro por texto en buscador
+// Filtra productos por texto ingresado (nombre)
 //-----------------------------------------------------------------------------------
 function filtradoProductos(string) {
     const params = new URLSearchParams(window.location.search);
@@ -119,14 +123,16 @@ function filtradoProductos(string) {
     }
 
     if (string && string !== "") {
-        elementos = elementos.filter(el => el.nombre.toLowerCase().includes(string.toLowerCase()));
+        elementos = elementos.filter(el =>
+            el.nombre.toLowerCase().includes(string.toLowerCase())
+        );
     }
 
     generarProductos(elementos);
 }
 
 //-----------------------------------------------------------------------------------
-// Modal de cantidad para agregar al carrito
+// Muestra modal para elegir cantidad y agregar producto al carrito
 //-----------------------------------------------------------------------------------
 function agregarCarrito(productoAgregar) {
     const modal = document.getElementById("cantidad-modal");
@@ -137,6 +143,7 @@ function agregarCarrito(productoAgregar) {
     modal.style.display = "flex";
     input.value = "";
 
+    // Confirmar cantidad y guardar en localStorage
     confirmar.onclick = function () {
         let cantidad = parseInt(input.value, 10);
 
@@ -144,6 +151,7 @@ function agregarCarrito(productoAgregar) {
             let item = { ...productoAgregar, cantidad };
             let productosGuardados = JSON.parse(localStorage.getItem("producto")) || [];
 
+            // Si ya existe en el carrito, sumar cantidad
             let index = productosGuardados.findIndex(p => p.nombre === item.nombre);
             if (index !== -1) {
                 productosGuardados[index].cantidad += cantidad;
@@ -158,6 +166,7 @@ function agregarCarrito(productoAgregar) {
         }
     };
 
+    // Cancelar selección
     cancelar.onclick = function () {
         modal.style.display = "none";
     };

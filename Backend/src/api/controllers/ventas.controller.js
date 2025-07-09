@@ -9,7 +9,7 @@ export async function crearVenta(req, res) {
 
         await VentasModel.createDetalleVenta(id_venta, id_productos, cantidad);
 
-        res.status(200).json({ payload: "Venta creada correctamente" });
+        res.status(200).json({ success: true, payload: "Venta creada correctamente" });
     } catch (error) {
         console.error("Error al crear venta:", error.message);
         res.status(500).json({ error: "Error interno al registrar la venta" });

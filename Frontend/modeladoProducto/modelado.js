@@ -1,14 +1,17 @@
+// Selección del formulario
 const form = document.querySelector("form");
 
+// Evento al enviar el formulario
 form.addEventListener("submit", async function (event) {
-  event.preventDefault(); // Prevenir recarga
+  event.preventDefault(); // Evita que se recargue la página
 
+  // Obtener valores del formulario
   const imagen = document.querySelector(".imagen").value.trim();
   const nombre = document.querySelector(".nombre").value.trim();
   const precio = parseFloat(document.querySelector(".precio").value);
   const categoria = document.querySelector(".categoria").value.trim();
 
-  // Validaciones
+  // Validaciones básicas
   if (!imagen || !nombre || !categoria || isNaN(precio)) {
     alert("⚠️ Completá todos los campos correctamente.");
     return;
@@ -19,6 +22,7 @@ form.addEventListener("submit", async function (event) {
     return;
   }
 
+  // Enviar datos al backend para crear producto
   try {
     const response = await fetch("http://localhost:3000/products", {
       method: "POST",
@@ -37,7 +41,7 @@ form.addEventListener("submit", async function (event) {
 
     if (response.ok) {
       alert("✅ Producto creado con éxito");
-      // Redirigir al dashboard
+      // Redirige al dashboard después de crear el producto
       window.location.href = "../dashboard/dashboard.html";
     } else {
       alert("❌ Error: " + result.error);

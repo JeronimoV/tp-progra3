@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ticket de Compra</title>
+  <link rel="stylesheet" href="ticket.css" />
+</head>
+<body>
+  <div class="ticket">
+    <h1>🧾 Ticket de Compra</h1>
+    <p><strong>Empresa:</strong> <span id="empresa"></span></p>
+    <p><strong>Cliente:</strong> <span id="cliente"></span></p>
+    <p><strong>Fecha:</strong> <span id="fecha"></span></p>
+    <p><strong>Hora:</strong> <span id="hora"></span></p>
+    <p><strong>Producto:</strong> <span id="producto"></span></p>
+    <p><strong>Cantidad:</strong> <span id="cantidad"></span></p>
+    <p><strong>Precio Unitario:</strong> $<span id="precio"></span></p>
+    <p><strong>Total:</strong> $<span id="total"></span></p>
+    <hr />
+    <p>¡Gracias por tu compra!</p>
+    <button onclick="window.print()">Imprimir</button>
+    <button onclick="window.location.href='../main/main.html'">Volver al Inicio</button>
+  </div>
+  <script src="ticket.js"></script>
+</body>
+</html>

@@ -1,6 +1,6 @@
 import mysql from "mysql2/promise"; //importamos modulo en promesa
 
-//Traemos los datos de conexion de nuestro archivo de variable de entorno
+//Traemos los datos de conexion de nuestro archivo de variable de entorno para mayor seguridad.
 import enviroments from "../config/enviroments.js";
 
 const { database } = enviroments;
@@ -14,3 +14,6 @@ const connection = mysql.createPool({
 
 export default connection;
 
+//Justamente com se vió en la catedra
+//El pool permite manejar múltiples conexiones eficientes 
+//para consultas asincrónicas en la aplicación.

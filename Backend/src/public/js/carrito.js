@@ -1,48 +1,44 @@
+// Lista de productos cargados desde el localStorage
 var productos = [];
 
 //-----------------------------------------------------------------------------------
-
-var contenedor = document.getElementsByClassName("contenedor-productos")[0];
-var valorBusqueda
-init()
-
+// Referencias y setup inicial
 //-----------------------------------------------------------------------------------
 
-function init(){
-    // Llama a las funciones esenciales y adicionalmente verifica que exista el localStorage correspondiente,
-    // para evitar errores al parsear si no está inicializado
-    getLocalStorage()
-    filtradoProductos()
+var contenedor = document.getElementsByClassName("contenedor-productos")[0];
+var valorBusqueda;
+
+init(); // Inicia el sistema
+
+//-----------------------------------------------------------------------------------
+// Función principal de inicio: carga productos y renderiza
+//-----------------------------------------------------------------------------------
+function init() {
+    // Carga productos desde localStorage y muestra en pantalla
+    getLocalStorage();
+    filtradoProductos();
 }
 
 //-----------------------------------------------------------------------------------
-
-function generarProductos(productos){ 
-    /*
-    Primero que nada lo que hace es eliminar todos los nodos ya existentes, para evitar que se duplique
-    Luego lo que hago, es que con los productos que me pasaron por parámetro, lo recorro
-    Creo las etiquetas necesarias, les doy el valor necesario
-    Adicionalmente hay botones con eventos, que permiten aumentar, disminuir o eliminar el producto del carrito
-    */
-
-    while(contenedor.hasChildNodes()){ 
-        /*
-        Con un bucle while que verifica que el carrito tenga nodos hijos,
-        si tiene, elimina el primer elemento hijo, así sucesivamente hasta que no tenga más nada
-        */
-        contenedor.removeChild(contenedor.firstChild)
+// Genera y muestra los productos en el DOM
+//-----------------------------------------------------------------------------------
+function generarProductos(productos) {
+    // Limpia el contenedor antes de volver a renderizar
+    while (contenedor.hasChildNodes()) {
+        contenedor.removeChild(contenedor.firstChild);
     }
 
     let total = 0;
 
-    for(let i = 0; i < productos.length; i++){
+    // Recorre y genera la tarjeta HTML para cada producto
+    for (let i = 0; i < productos.length; i++) {
         let div = document.createElement("article");
         let img = document.createElement("img");
         let h3 = document.createElement("h3");
         let p = document.createElement("p");
         let cantidad = document.createElement("p");
 
-        // Botones
+        // Botones de control
         let btnMenos = document.createElement("button");
         let btnMas = document.createElement("button");
         let btnEliminar = document.createElement("button");
@@ -50,45 +46,46 @@ function generarProductos(productos){
 
         div.className = "card-producto";
 
+        // Datos del producto
         img.src = productos[i].imagen;
         h3.textContent = productos[i].nombre;
         p.textContent = "$" + productos[i].precio;
-
         cantidad.textContent = "Cantidad: " + productos[i].cantidad;
 
-        // Botón +
+        // Botón "+" para sumar cantidad
         btnMas.textContent = "+";
         btnMas.addEventListener("click", () => {
             productos[i].cantidad += 1;
             guardarYActualizar();
         });
 
-        // Botón -
+        // Botón "-" para restar cantidad o eliminar si llega a 0
         btnMenos.textContent = "-";
         btnMenos.addEventListener("click", () => {
             productos[i].cantidad -= 1;
             if (productos[i].cantidad <= 0) {
-                productos.splice(i, 1);
+                productos.splice(i, 1); // Elimina del array
             }
             guardarYActualizar();
         });
 
-        // Botón eliminar
+        // Botón para eliminar directamente
         btnEliminar.textContent = "X";
         btnEliminar.addEventListener("click", () => {
             productos.splice(i, 1);
             guardarYActualizar();
         });
 
-        // Boton comprar
+        // Botón de compra (envía datos al backend)
         btnComprar.textContent = "Comprar";
         btnComprar.addEventListener("click", () => {
-            comprarProductos(productos[i].cantidad, productos[i].id)
-        })
+            comprarProductos(productos[i].cantidad, productos[i].id);
+        });
 
-        // Total parcial
+        // Acumula el total general del carrito
         total += productos[i].precio * productos[i].cantidad;
 
+        // Agrega los elementos a la tarjeta
         div.appendChild(img);
         div.appendChild(h3);
         div.appendChild(p);
@@ -101,14 +98,16 @@ function generarProductos(productos){
         contenedor.appendChild(div);
     }
 
-    // Agregar total general al final
+    // Muestra el total general al final
     let totalDiv = document.createElement("div");
     totalDiv.className = "total-carrito";
     totalDiv.textContent = "Total: $" + total;
     contenedor.appendChild(totalDiv);
 }
-//-----------------------------------------------------------------------------------
 
+//-----------------------------------------------------------------------------------
+// Realiza la compra del producto y envía los datos al backend
+//-----------------------------------------------------------------------------------
 async function comprarProductos(cantidad, id_productos) {
     console.log("ID del producto:", id_productos);
     
@@ -116,6 +115,7 @@ async function comprarProductos(cantidad, id_productos) {
 
     try {
         console.log("Enviando:", { id_usuario, id_productos, cantidad });
+
         const response = await fetch("http://localhost:3000/ventas", {
             method: "POST",
             headers: {
@@ -129,37 +129,40 @@ async function comprarProductos(cantidad, id_productos) {
         });
 
         const data = await response.json();
-
         console.log("Respuesta del servidor:", data);
-        alert(data.payload); // <- Esto ahora sí debería decir "Venta creada correctamente"
+        alert(data.payload); // Muestra mensaje de éxito del servidor
     } catch (error) {
         console.error("Error en la compra:", error);
         alert("Ocurrió un error al procesar la compra.");
     }
 }
 
-
 //-----------------------------------------------------------------------------------
-
-function filtradoProductos(string){
-    /*
-    Uso el filter para filtrar por NOMBRE, solo si el string que me llega del input no es null,
-    ya que si es null, significa que no está siendo usado el input
-    por lo cual el usuario no está queriendo buscar nada
-    El resultado de eso lo paso a generarProductos para que cree las etiquetas de cada producto
-    */
+// Filtra los productos por nombre (si hay búsqueda activa)
+//-----------------------------------------------------------------------------------
+function filtradoProductos(string) {
     let elementos = productos;
-    if(string != null){
-        elementos = productos.filter(el => el.nombre.toLowerCase().includes(string.toLowerCase()))
+
+    if (string != null) {
+        elementos = productos.filter(el =>
+            el.nombre.toLowerCase().includes(string.toLowerCase())
+        );
     }
-    generarProductos(elementos)
+
+    generarProductos(elementos);
 }
 
-function getLocalStorage(){
+//-----------------------------------------------------------------------------------
+// Carga productos desde localStorage (si existe)
+//-----------------------------------------------------------------------------------
+function getLocalStorage() {
     productos = JSON.parse(localStorage.getItem("producto")) || [];
 }
 
-function guardarYActualizar(){
+//-----------------------------------------------------------------------------------
+// Guarda los productos modificados en localStorage y actualiza pantalla
+//-----------------------------------------------------------------------------------
+function guardarYActualizar() {
     localStorage.setItem("producto", JSON.stringify(productos));
     generarProductos(productos);
     console.log("Carrito actualizado:", productos);

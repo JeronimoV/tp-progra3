@@ -6,26 +6,26 @@ import usersRoutes from "./src/api/routes/users.routes.js";
 import ventasRoutes from "./src/api/routes/ventas.routes.js";
 import { join, __dirname } from "./src/api/utils/index.js";
 import * as ProductsModel from "./src/api/models/products.models.js";
+import { loggerUrl } from "./src/api/middlewares/middlewares.js";
 
 const PORT = enviroments.port;
 const app = express();
 
-// Configuración EJS
+// Configuración del motor de plantillas EJS y carpeta de vistas
 app.set("view engine", "ejs");
 app.set("views", join(__dirname, "src/views"));
 
-// Middlewares
+// Middlewares globales: CORS, parseo JSON, archivos estáticos y logger
 app.use(cors());
 app.use(express.json());
 app.use(express.static(join(__dirname, "src/public")));
+app.use(loggerUrl);
 
-
-// Ruta principal
+// Rutas principales para renderizado de vistas
 app.get("/", (req, res) => {
     res.send("Hola mundo");
 });
 
-// Ruta bienvenida con renderizado EJS
 app.get("/bienvenida", (req, res) => {
     try {
         res.render("bienvenida");
@@ -35,7 +35,6 @@ app.get("/bienvenida", (req, res) => {
     }
 });
 
-// ruta main/inicio con productos renderizados
 app.get("/main", async (req, res) => {
     try {
         res.render("main");
@@ -45,7 +44,6 @@ app.get("/main", async (req, res) => {
     }
 });
 
-// Ruta Dashboard con productos renderizados
 app.get("/dashboard", async (req, res) => {
     try {
         const productos = await ProductsModel.getAllProducts();
@@ -56,27 +54,24 @@ app.get("/dashboard", async (req, res) => {
     }
 });
 
-// Ruta para crear producto (vista EJS)
 app.get("/modelado", (req, res) => {
-  try {
-    res.render("modelado");
-  } catch (error) {
-    console.error("Error al cargar página de creación:", error.message);
-    res.status(500).send("Error cargando la página de creación de producto");
-  }
+    try {
+        res.render("modelado");
+    } catch (error) {
+        console.error("Error al cargar página de creación:", error.message);
+        res.status(500).send("Error cargando la página de creación de producto");
+    }
 });
 
-// Ruta para editar producto (vista EJS)
 app.get("/editado", (req, res) => {
-  try {
-    res.render("editado");
-  } catch (error) {
-    console.error("Error al cargar página de edición:", error.message);
-    res.status(500).send("Error cargando la página de edición");
-  }
+    try {
+        res.render("editado");
+    } catch (error) {
+        console.error("Error al cargar página de edición:", error.message);
+        res.status(500).send("Error cargando la página de edición");
+    }
 });
 
-//Ruta carrito con productos renderizados
 app.get("/carrito", async (req, res) => {
     try {
         res.render("carrito");
@@ -86,10 +81,12 @@ app.get("/carrito", async (req, res) => {
     }
 });
 
+// Enrutadores específicos con middlewares (definidos en sus respectivos archivos)
 app.use("/products", productsRoutes);
 app.use("/users", usersRoutes);
 app.use("/ventas", ventasRoutes);
 
+// Inicio del servidor
 app.listen(PORT, () => {
     console.log(`Servidor corriendo en el puerto ${PORT}`);
 });

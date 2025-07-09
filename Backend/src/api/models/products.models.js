@@ -27,3 +27,8 @@ export async function deleteProduct(id) {
     const [result] = await connection.query(sql, [id]);
     return result;
 }
+
+// Con los archivos .models.js trabajamos funciones las cuales interactuan directamente con la base de datos
+//Obtienen todos los productos o uno específico por ID.
+//Insertan, actualizan y eliminan productos usando sentencias SQL parametrizadas.
+//Devuelven resultados o filas obtenidas para ser usados por los controladores.

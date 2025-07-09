@@ -1,21 +1,20 @@
 //-----------------------------------------------------------------------------------
-// Variables globales y referencias a elementos DOM
+// Variables globales y referencias a elementos del DOM
 //-----------------------------------------------------------------------------------
 
-let productos = [];
+let productos = []; // Almacena la lista de productos obtenidos desde el backend
 
-const contenedor = document.getElementsByClassName("contenedor-productos")[0];
-const modal = document.getElementById("estado-modal");
-const confirmarBtn = document.getElementById("confirmar-estado");
-const cancelarBtn = document.getElementById("cancelar-estado");
-const searchInput = document.getElementById("search-input");
+const contenedor = document.getElementsByClassName("contenedor-productos")[0]; // Contenedor donde se renderizan los productos
+const modal = document.getElementById("estado-modal"); // Modal de confirmación para activar/desactivar producto
+const confirmarBtn = document.getElementById("confirmar-estado"); // Botón de confirmar en el modal
+const cancelarBtn = document.getElementById("cancelar-estado"); // Botón de cancelar en el modal
+const searchInput = document.getElementById("search-input"); // Input para filtrar productos por nombre
 
-let productoParaCambiarEstado = null; // Producto que se está activando/desactivando
+let productoParaCambiarEstado = null; // Guarda el producto seleccionado para cambiar su estado
 
 //-----------------------------------------------------------------------------------
-// Obtención de productos desde el backend
+// Al cargar el DOM se obtienen los productos desde el backend
 //-----------------------------------------------------------------------------------
-
 document.addEventListener("DOMContentLoaded", obtenerDatosProductos);
 
 async function obtenerDatosProductos() {
@@ -23,22 +22,21 @@ async function obtenerDatosProductos() {
     const respuesta = await fetch("http://localhost:3000/products");
     const datos = await respuesta.json();
 
-    productos = datos.payload || []; // Asegurar que sea un array
+    productos = datos.payload || []; // Se asegura que siempre sea un array válido
 
-    init();
+    init(); // Se inicializa el sistema una vez cargados los productos
   } catch (error) {
     console.error("Error al obtener productos:", error);
   }
 }
 
 //-----------------------------------------------------------------------------------
-// Inicialización del sistema (carga productos y asigna eventos)
+// Inicialización del sistema: render y buscador con debounce
 //-----------------------------------------------------------------------------------
-
 function init() {
-  filtradoProductos();
+  filtradoProductos(); // Muestra todos los productos por defecto
 
-  // Listener para búsqueda con debounce
+  // Debounce en el buscador para evitar llamados innecesarios
   let debounceTimeout;
   searchInput.addEventListener("input", () => {
     clearTimeout(debounceTimeout);
@@ -49,23 +47,22 @@ function init() {
 }
 
 //-----------------------------------------------------------------------------------
-// Generador de productos en HTML
+// Renderiza productos en el HTML
 //-----------------------------------------------------------------------------------
-
 function generarProductos(listaProductos) {
-  // Limpiar contenedor
+  // Limpia el contenedor de productos antes de generar nuevos elementos
   while (contenedor.hasChildNodes()) {
     contenedor.removeChild(contenedor.firstChild);
   }
 
-  // Botón para crear producto
+  // Agrega un botón para crear nuevos productos
   const crearLink = document.createElement("a");
   crearLink.textContent = "Crear Producto";
-  crearLink.href = "/modelado";
+  crearLink.href = "/modelado"; // Redirecciona a la vista de creación
   crearLink.className = "crear-producto-btn";
   contenedor.appendChild(crearLink);
 
-  // Crear cada tarjeta de producto
+  // Recorre la lista de productos y los renderiza en tarjetas
   listaProductos.forEach((producto, i) => {
     const div = document.createElement("article");
     div.className = producto.estado ? "card-producto" : "card-producto-inactivo";
@@ -83,27 +80,27 @@ function generarProductos(listaProductos) {
     const pCategoria = document.createElement("p");
     pCategoria.textContent = producto.categoria;
 
-    // Botón editar (link)
+    // Botón de edición
     const editarBtn = document.createElement("a");
     editarBtn.textContent = "Editar";
     editarBtn.href = `/editado?id=${producto.id}`;
     editarBtn.name = i;
 
-    // Botón activar/desactivar
+    // Botón para cambiar estado
     const estadoBtn = document.createElement("button");
     estadoBtn.textContent = producto.estado ? "Desactivar" : "Activar";
     estadoBtn.name = i;
 
-    // Botón eliminar
+    // Botón para eliminar producto
     const eliminarBtn = document.createElement("button");
     eliminarBtn.textContent = "Eliminar";
     eliminarBtn.name = i;
 
-    // Eventos
+    // Asignar eventos
     estadoBtn.addEventListener("click", () => modalConfirmacion(producto));
     eliminarBtn.addEventListener("click", () => eliminarProducto(producto));
 
-    // Agregar elementos al div
+    // Agregar todos los elementos a la tarjeta
     div.appendChild(img);
     div.appendChild(h3);
     div.appendChild(pPrecio);
@@ -112,37 +109,34 @@ function generarProductos(listaProductos) {
     div.appendChild(estadoBtn);
     div.appendChild(eliminarBtn);
 
-    // Agregar tarjeta al contenedor
     contenedor.appendChild(div);
   });
 }
 
 //-----------------------------------------------------------------------------------
-// Filtrado de productos por texto ingresado en la búsqueda
+// Filtra productos por nombre (usado por buscador)
 //-----------------------------------------------------------------------------------
-
 function filtradoProductos(texto = "") {
   let filtrados = productos;
 
+  // Filtra si hay texto ingresado en el buscador
   if (texto) {
     filtrados = productos.filter(producto =>
       producto.nombre.toLowerCase().includes(texto.toLowerCase())
     );
   }
 
-  generarProductos(filtrados);
+  generarProductos(filtrados); // Renderiza el resultado
 }
 
 //-----------------------------------------------------------------------------------
-// Modal de confirmación para activar/desactivar producto
+// Muestra el modal para confirmar activación/desactivación
 //-----------------------------------------------------------------------------------
-
 function modalConfirmacion(producto) {
   productoParaCambiarEstado = producto;
-
   modal.style.display = "flex";
 
-  // Definimos los manejadores en cada apertura para evitar acumulación de eventos
+  // Asigna manejadores de confirmación/cancelación en cada apertura
   confirmarBtn.onclick = async () => {
     modal.style.display = "none";
 
@@ -150,7 +144,7 @@ function modalConfirmacion(producto) {
 
     try {
       const res = await fetch(`http://localhost:3000/products/${productoParaCambiarEstado.id}`, {
-        method: "POST", // o PUT si tu backend lo requiere
+        method: "POST", // Usar PUT si tu API lo requiere
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           imagen: productoParaCambiarEstado.imagen,
@@ -168,7 +162,7 @@ function modalConfirmacion(producto) {
         return;
       }
 
-      productoParaCambiarEstado.estado = nuevoEstado; // Actualizar localmente
+      productoParaCambiarEstado.estado = nuevoEstado;
       filtradoProductos(searchInput.value.trim());
       alert(`Producto ${nuevoEstado ? "activado" : "desactivado"} con éxito.`);
     } catch (error) {
@@ -184,9 +178,8 @@ function modalConfirmacion(producto) {
 }
 
 //-----------------------------------------------------------------------------------
-// Eliminar producto con confirmación y actualización backend
+// Elimina un producto del backend y actualiza la vista
 //-----------------------------------------------------------------------------------
-
 async function eliminarProducto(producto) {
   const confirmacion = confirm(`¿Seguro quieres eliminar el producto "${producto.nombre}"? Esta acción es irreversible.`);
 
@@ -200,8 +193,7 @@ async function eliminarProducto(producto) {
     const data = await res.json();
 
     if (res.ok) {
-      // Remover localmente
-      productos = productos.filter(p => p.id !== producto.id);
+      productos = productos.filter(p => p.id !== producto.id); // Elimina localmente
       filtradoProductos(searchInput.value.trim());
       alert("Producto eliminado con éxito.");
     } else {

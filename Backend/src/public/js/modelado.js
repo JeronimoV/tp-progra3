@@ -1,14 +1,26 @@
+//-----------------------------------------------------------------------------------
+// Referencia al formulario del DOM
+//-----------------------------------------------------------------------------------
+
 const form = document.querySelector("form");
 
-form.addEventListener("submit", async function (event) {
-  event.preventDefault(); // Prevenir recarga
+//-----------------------------------------------------------------------------------
+// Evento submit del formulario
+//-----------------------------------------------------------------------------------
 
+form.addEventListener("submit", async function (event) {
+  event.preventDefault(); // Prevenir recarga de la página al enviar el formulario
+
+  // Obtener valores de los campos del formulario
   const imagen = document.querySelector(".link-imagen").value.trim();
   const nombre = document.querySelector(".nombre-producto").value.trim();
   const precio = parseFloat(document.querySelector(".precio-producto").value);
   const categoria = document.querySelector(".categoria-producto").value.trim();
 
-  // Validaciones
+  //-----------------------------------------------------------------------------------
+  // Validaciones básicas de los campos
+  //-----------------------------------------------------------------------------------
+
   if (!imagen || !nombre || !categoria || isNaN(precio)) {
     alert("⚠️ Completá todos los campos correctamente.");
     return;
@@ -19,9 +31,13 @@ form.addEventListener("submit", async function (event) {
     return;
   }
 
+  //-----------------------------------------------------------------------------------
+  // Envío de datos al backend mediante fetch
+  //-----------------------------------------------------------------------------------
+
   try {
     const response = await fetch("http://localhost:3000/products", {
-      method: "POST",
+      method: "POST", // Método para crear un nuevo recurso
       headers: {
         "Content-Type": "application/json"
       },
@@ -30,15 +46,15 @@ form.addEventListener("submit", async function (event) {
         nombre,
         precio,
         categoria,
-        estado: true // agrega estado inicial
+        estado: true // El producto se crea con estado activo por defecto
       })
     });
 
-    const result = await response.json();
+    const result = await response.json(); // Obtener respuesta del backend
 
     if (response.ok) {
       alert("✅ Producto creado con éxito");
-      // Redirigir al dashboard
+      // Redireccionar al dashboard una vez creado
       window.location.href = "/dashboard";
     } else {
       alert("❌ Error: " + result.error);

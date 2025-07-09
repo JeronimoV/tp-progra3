@@ -2,7 +2,7 @@
 // Variables globales y referencias a elementos DOM
 //-----------------------------------------------------------------------------------
 
-let productos = [];
+let productos = []; // Array con los productos obtenidos del backend
 
 const contenedor = document.getElementsByClassName("contenedor-productos")[0];
 const modal = document.getElementById("estado-modal");
@@ -10,10 +10,10 @@ const confirmarBtn = document.getElementById("confirmar-estado");
 const cancelarBtn = document.getElementById("cancelar-estado");
 const searchInput = document.getElementById("search-input");
 
-let productoParaCambiarEstado = null; // Producto que se está activando/desactivando
+let productoParaCambiarEstado = null; // Producto seleccionado para cambiar estado
 
 //-----------------------------------------------------------------------------------
-// Obtención de productos desde el backend
+// Obtención de productos desde el backend al cargar la página
 //-----------------------------------------------------------------------------------
 
 document.addEventListener("DOMContentLoaded", obtenerDatosProductos);
@@ -23,8 +23,7 @@ async function obtenerDatosProductos() {
     const respuesta = await fetch("http://localhost:3000/products");
     const datos = await respuesta.json();
 
-    productos = datos.payload || []; // Asegurar que sea un array
-
+    productos = datos.payload || []; // Guardar productos o array vacío
     init();
   } catch (error) {
     console.error("Error al obtener productos:", error);
@@ -32,13 +31,12 @@ async function obtenerDatosProductos() {
 }
 
 //-----------------------------------------------------------------------------------
-// Inicialización del sistema (carga productos y asigna eventos)
+// Inicialización: filtra productos y configura búsqueda con debounce
 //-----------------------------------------------------------------------------------
 
 function init() {
   filtradoProductos();
 
-  // Listener para búsqueda con debounce
   let debounceTimeout;
   searchInput.addEventListener("input", () => {
     clearTimeout(debounceTimeout);
@@ -49,23 +47,23 @@ function init() {
 }
 
 //-----------------------------------------------------------------------------------
-// Generador de productos en HTML
+// Genera las tarjetas HTML para cada producto y botones de acción
 //-----------------------------------------------------------------------------------
 
 function generarProductos(listaProductos) {
-  // Limpiar contenedor
+  // Limpia el contenedor antes de agregar productos
   while (contenedor.hasChildNodes()) {
     contenedor.removeChild(contenedor.firstChild);
   }
 
-  // Botón para crear producto
+  // Agrega botón para crear nuevo producto
   const crearLink = document.createElement("a");
   crearLink.textContent = "Crear Producto";
   crearLink.href = "../modeladoProducto/modelado.html";
   crearLink.className = "crear-producto-btn";
   contenedor.appendChild(crearLink);
 
-  // Crear cada tarjeta de producto
+  // Por cada producto crea una tarjeta con información y botones
   listaProductos.forEach((producto, i) => {
     const div = document.createElement("article");
     div.className = producto.estado ? "card-producto" : "card-producto-inactivo";
@@ -82,27 +80,27 @@ function generarProductos(listaProductos) {
 
     const pCategoria = document.createElement("p");
 
-    // Botón editar (link)
+    // Botón para editar producto (link a página de edición)
     const editarBtn = document.createElement("a");
     editarBtn.textContent = "Editar";
     editarBtn.href = `../editadoProducto/editado.html?id=${producto.id}`;
     editarBtn.name = i;
 
-    // Botón activar/desactivar
+    // Botón para activar o desactivar producto
     const estadoBtn = document.createElement("button");
     estadoBtn.textContent = producto.estado ? "Desactivar" : "Activar";
     estadoBtn.name = i;
 
-    // Botón eliminar
+    // Botón para eliminar producto
     const eliminarBtn = document.createElement("button");
     eliminarBtn.textContent = "Eliminar";
     eliminarBtn.name = i;
 
-    // Eventos
+    // Asignar eventos para activar/desactivar y eliminar
     estadoBtn.addEventListener("click", () => modalConfirmacion(producto));
     eliminarBtn.addEventListener("click", () => eliminarProducto(producto));
     
-    // Agregar elementos al div
+    // Construir tarjeta con elementos
     div.appendChild(img);
     div.appendChild(h3);
     div.appendChild(pPrecio);
@@ -111,13 +109,12 @@ function generarProductos(listaProductos) {
     div.appendChild(estadoBtn);
     div.appendChild(eliminarBtn);
 
-    // Agregar tarjeta al contenedor
     contenedor.appendChild(div);
   });
 }
 
 //-----------------------------------------------------------------------------------
-// Filtrado de productos por texto ingresado en la búsqueda
+// Filtra productos según texto ingresado y actualiza la visualización
 //-----------------------------------------------------------------------------------
 
 function filtradoProductos(texto = "") {
@@ -133,7 +130,7 @@ function filtradoProductos(texto = "") {
 }
 
 //-----------------------------------------------------------------------------------
-// Modal de confirmación para activar/desactivar producto
+// Modal para confirmar activar o desactivar producto
 //-----------------------------------------------------------------------------------
 
 function modalConfirmacion(producto) {
@@ -153,7 +150,7 @@ function modalConfirmacion(producto) {
 }
 
 //-----------------------------------------------------------------------------------
-// Cambiar estado de un producto y actualizar backend
+// Cambia el estado del producto en backend y actualiza UI
 //-----------------------------------------------------------------------------------
 
 async function cambiarEstadoProducto(producto) {
@@ -175,8 +172,8 @@ async function cambiarEstadoProducto(producto) {
     const data = await res.json();
 
     if (res.ok) {
-      producto.estado = nuevoEstado; // Actualizar localmente
-      filtradoProductos(searchInput.value.trim());
+      producto.estado = nuevoEstado; // Actualiza estado local
+      filtradoProductos(searchInput.value.trim()); // Refresca lista
       alert(`Producto ${nuevoEstado ? "activado" : "desactivado"} con éxito.`);
     } else {
       alert("Error al cambiar estado: " + (data.error || "Error desconocido"));
@@ -188,7 +185,7 @@ async function cambiarEstadoProducto(producto) {
 }
 
 //-----------------------------------------------------------------------------------
-// Eliminar producto con confirmación y actualización backend
+// Elimina producto con confirmación y actualiza backend y UI
 //-----------------------------------------------------------------------------------
 
 async function eliminarProducto(producto) {
@@ -204,7 +201,7 @@ async function eliminarProducto(producto) {
     const data = await res.json();
 
     if (res.ok) {
-      // Remover localmente
+      // Eliminar localmente y refrescar vista
       productos = productos.filter(p => p.id !== producto.id);
       filtradoProductos(searchInput.value.trim());
       alert("Producto eliminado con éxito.");

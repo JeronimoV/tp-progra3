@@ -1,3 +1,11 @@
+// Con los controller.js implementamos la lógica para cada endpoint del del recurso productos
+// Obtenemos todos o uno por ID, manejando casos de no encontrado
+//creamos, eliminamos y actualizamos productos con control de errores como se enseñó en la catedra.
+// respondemos con JSON adecuados según el resultado de la operación.
+
+//En resumen, si se puede sacar a conclusión, actúa como intermediario entre la petición HTTP y las funciones de modelo (DB).
+
+
 import * as ProductsModel from "../models/products.models.js";
 
 export async function obtenerProductos(req, res) {

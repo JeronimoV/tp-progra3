@@ -1,0 +1,32 @@
+body {
+  font-family: Arial, sans-serif;
+  padding: 2rem;
+  background-color: #f9f9f9;
+}
+
+.ticket {
+  background: white;
+  padding: 2rem;
+  max-width: 500px;
+  margin: auto;
+  border: 1px solid #ccc;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.ticket h1 {
+  margin-bottom: 1.5rem;
+}
+
+.ticket p {
+  font-size: 1.1rem;
+  margin: 0.5rem 0;
+}
+
+button {
+  margin-top: 1.5rem;
+  margin-right: 0.5rem;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  cursor: pointer;
+}
