@@ -2,8 +2,29 @@
 // Variables globales
 //-----------------------------------------------------------------------------------
 let productos = [];
+let productoCopia = [];
 let contenedor = document.getElementsByClassName("contenedor-productos")[0];
+let paginaText = document.getElementsByClassName("pagina")[0];
+let botonRight = document.getElementsByClassName("button_right")[0];
+let botonLeft = document.getElementsByClassName("button_left")[0];
 let carrito = []; // Array auxiliar (no usado directamente en este archivo)
+let numPagina = 0
+
+botonRight.addEventListener("click", () => {
+    if(9+9*numPagina < productos.length){
+        numPagina++
+        paginaText.textContent = numPagina;
+        generarProductos()
+    }
+})
+
+botonLeft.addEventListener("click", () => {
+    if(numPagina != 0){
+        numPagina--
+        paginaText.textContent = numPagina;
+        generarProductos()
+    }
+})
 
 //-----------------------------------------------------------------------------------
 // Obtener productos desde el backend y luego iniciar la interfaz
@@ -13,6 +34,7 @@ async function obtenerDatosProductos() {
         const respuesta = await fetch("http://localhost:3000/products");
         const datos = await respuesta.json();
         productos = datos.payload;
+        productoCopia = datos.payload;
 
         // Si hay una categoría en la URL, se filtra por ella
         const params = new URLSearchParams(window.location.search);
@@ -52,14 +74,14 @@ function init(categoria) {
     if (categoria) {
         filtradoCategoria(categoria);
     } else {
-        generarProductos(productos);
+        generarProductos();
     }
 }
 
 //-----------------------------------------------------------------------------------
 // Renderiza los productos en pantalla
 //-----------------------------------------------------------------------------------
-function generarProductos(productos) {
+function generarProductos() {
     // Limpiar el contenedor antes de agregar productos
     while (contenedor.hasChildNodes()) {
         contenedor.removeChild(contenedor.firstChild);
@@ -70,9 +92,11 @@ function generarProductos(productos) {
         contenedor.innerHTML = "<p>No se encontraron productos.</p>";
         return;
     }
+    
+    let inicio = 9*numPagina;
 
     // Crear tarjetas HTML para cada producto activo
-    for (let i = 0; i < productos.length; i++) {
+    for (let i = inicio; i < (9+9*numPagina); i++) {
         if (productos[i].estado) {
             let div = document.createElement("article");
             let img = document.createElement("img");
@@ -105,8 +129,8 @@ function generarProductos(productos) {
 // Filtra productos por categoría (URL param)
 //-----------------------------------------------------------------------------------
 function filtradoCategoria(categoria) {
-    const filtrados = productos.filter(p => p.categoria === categoria && p.estado);
-    generarProductos(filtrados);
+    productos = productoCopia.filter(p => p.categoria === categoria && p.estado);
+    generarProductos();
 }
 
 //-----------------------------------------------------------------------------------
@@ -116,19 +140,18 @@ function filtradoProductos(string) {
     const params = new URLSearchParams(window.location.search);
     const categoria = params.get("categoria");
 
-    let elementos = productos;
 
     if (categoria) {
-        elementos = productos.filter(p => p.categoria === categoria && p.estado);
+        productos = productoCopia.filter(p => p.categoria === categoria && p.estado);
     }
 
     if (string && string !== "") {
-        elementos = elementos.filter(el =>
+        productos = productoCopia.filter(el =>
             el.nombre.toLowerCase().includes(string.toLowerCase())
         );
     }
 
-    generarProductos(elementos);
+    generarProductos();
 }
 
 //-----------------------------------------------------------------------------------
