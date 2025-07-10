@@ -43,211 +43,214 @@
 }
 
 * {
-    margin: 0;
+  margin: 0;
 }
 
 .window {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 10rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10rem;
 }
 
 .aside {
-    width: 20rem;
-    background-color: #ffffff;
-    padding: 2rem 1rem;
-    box-shadow: 4px 0 8px rgba(0, 0, 0, 0.1);
-    overflow-y: auto;
-    max-height: 100vh;
+  width: 20rem;
+  background-color: #ffffff;
+  padding: 2rem 1rem;
+  box-shadow: 4px 0 8px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
+  max-height: 100vh;
 }
 
 .aside::-webkit-scrollbar {
-    width: 8px;
+  width: 8px;
 }
 
 .aside::-webkit-scrollbar-thumb {
-    background-color: #ccc;
-    border-radius: 4px;
+  background-color: #ccc;
+  border-radius: 4px;
 }
 
 .aside::-webkit-scrollbar-track {
-    background-color: #f0f0f0;
+  background-color: #f0f0f0;
 }
 
 .aside ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
+  list-style: none;
+  padding: 0;
+  margin: 0;
 }
 
 .aside li {
-    margin-bottom: 2rem;
-    text-align: center;
+  margin-bottom: 2rem;
+  text-align: center;
 }
 
 .aside img {
-    height: 5rem;
-    display: block;
-    margin: 0 auto 0.5rem;
+  height: 5rem;
+  display: block;
+  margin: 0 auto 0.5rem;
 }
 
 .aside p {
-    font-weight: bold;
-    margin: 0;
+  font-weight: bold;
+  margin: 0;
 }
 
 .mensaje-bienvenida {
-    text-align: center;
-    font-size: 2rem;
-    font-weight: bold;
-    color: #333;
-    margin: 2rem 0 1rem;
+  text-align: center;
+  font-size: 2rem;
+  font-weight: bold;
+  color: #333;
+  margin: 2rem 0 1rem;
 }
 
 /* Contenedor de productos estilo tótem */
 .contenedor-productos {
-    flex: 1;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 2rem;
-    padding: 3rem;
-    background-color: #fff;
-    overflow-y: auto;
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  padding: 3rem;
+  background-color: #fff;
+  overflow-y: auto;
 }
 
 /* Cada producto (tarjeta) */
 .card-producto {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    padding: 1rem;
-    background-color: #f9f9f9;
-    border-radius: 1rem;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
-    transition: transform 0.2s ease-in-out;
-    cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 1rem;
+  background-color: #f9f9f9;
+  border-radius: 1rem;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease-in-out;
+  cursor: pointer;
 }
 
 .card-producto:hover {
-    transform: scale(1.03);
+  transform: scale(1.03);
 }
 
 .card-producto img {
-    height: 7rem;
-    margin-bottom: 0.5rem;
+  height: 7rem;
+  margin-bottom: 0.5rem;
 }
 
 .card-producto h3 {
-    margin: 0.5rem 0 0.25rem;
-    font-size: 1rem;
-    font-weight: bold;
+  margin: 0.5rem 0 0.25rem;
+  font-size: 1rem;
+  font-weight: bold;
 }
 
 .card-producto p {
-    margin: 0;
-    color: #333;
-    font-weight: bold;
+  margin: 0;
+  color: #333;
+  font-weight: bold;
 }
 
 /* Botón de "Agregar Carrito" */
 .card-producto button {
-    margin-top: 0.7rem;
-    padding: 0.5rem 1rem;
-    border: none;
-    background-color: #2C82C9;
-    color: #000;
-    font-weight: bold;
-    border-radius: 0.5rem;
-    cursor: pointer;
-    transition: background-color 0.3s;
+  margin-top: 0.7rem;
+  padding: 0.5rem 1rem;
+  border: none;
+  background-color: #2C82C9;
+  color: #000;
+  font-weight: bold;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
 
 .card-producto button:hover {
-    background-color: #2C82C9;
+  background-color: #2C82C9;
 }
 
 .header {
-    display: flex;
-    justify-content: space-around;
-    background-color: #2C82C9;
-    align-items: center;
-    margin: 0px;
-    padding: 1rem;
-    height: 2rem;
+  display: flex;
+  justify-content: space-around;
+  background-color: #2C82C9;
+  align-items: center;
+  margin: 0px;
+  padding: 1rem;
+  height: 2rem;
 }
 
 .header a {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    text-decoration: none;
-    color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-decoration: none;
+  color: white;
 }
 
 
 .header input {
-    width: 30rem;
-    height: 2rem;
+  width: 30rem;
+  height: 2rem;
 }
 
 .header p {
-    text-align: center;
+  text-align: center;
 }
 
 .header img {
-    height: 2.5rem;
+  height: 2.5rem;
 }
 
 .modal {
-    display: none;
-    position: fixed;
-    z-index: 1000;
-    inset: 0;
-    background-color: rgba(0, 0, 0, 0.5);
-    justify-content: center;
-    align-items: center;
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  justify-content: center;
+  align-items: center;
 }
 
 .modal-contenido {
-    background-color: #ffffff;
-    padding: 2rem;
-    border-radius: 1rem;
-    text-align: center;
-    box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
-    width: 90%;
-    max-width: 400px;
+  background-color: #ffffff;
+  padding: 2rem;
+  border-radius: 1rem;
+  text-align: center;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+  width: 90%;
+  max-width: 400px;
 }
 
 .modal-contenido h2 {
-    margin-bottom: 1rem;
+  margin-bottom: 1rem;
 }
 
 .modal-contenido input {
-    padding: 0.5rem;
-    width: 80%;
-    margin-bottom: 1.5rem;
-    font-size: 1rem;
+  padding: 0.5rem;
+  width: 80%;
+  margin-bottom: 1.5rem;
+  font-size: 1rem;
 }
 
 .modal-botones button {
-    margin: 0 0.5rem;
-    padding: 0.6rem 1.2rem;
-    background-color: #2C82C9;
-    border: none;
-    border-radius: 0.5rem;
-    font-weight: bold;
-    cursor: pointer;
-    transition: background-color 0.3s;
+  margin: 0 0.5rem;
+  padding: 0.6rem 1.2rem;
+  background-color: #2C82C9;
+  border: none;
+  border-radius: 0.5rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
 
 .modal-botones button:hover {
-    background-color: #2C82C9;
+  background-color: #2C82C9;
 }
 
-
+.buttons_pagination {
+  display: flex;
+  justify-content: center;
+}
 
 @media (max-width: 1024px) {
   .header {
