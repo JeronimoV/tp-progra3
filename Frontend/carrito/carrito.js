@@ -127,6 +127,19 @@ async function comprarProductos(cantidad, id_productos) {
         };
 
         localStorage.setItem("ticket", JSON.stringify(ticket));
+
+        // 🔄 Actualizar carrito: restar cantidad o eliminar producto
+        const index = productos.findIndex(p => p.id === id_productos);
+        if (index !== -1) {
+            productos[index].cantidad -= cantidad;
+            if (productos[index].cantidad <= 0) {
+                productos.splice(index, 1); // Eliminar si cantidad es 0
+            }
+        }
+
+        // Guardar cambios en localStorage y actualizar la vista
+        guardarYActualizar();
+
         // Abrir ventana con ticket de compra
         window.open("../ticket/ticket.html", "_blank");
     } else {
