@@ -19,13 +19,19 @@
   <img src="https://static.vecteezy.com/system/resources/previews/047/443/035/original/computer-technology-logo-template-designs-computer-service-logo-template-design-concept-free-vector.jpg"
     alt="Logo Hamburguesa" class="logo-hamburguesa" />
 
-  <h1>Bienvenido a (Nombre de la aplicación)</h1>
+  <h1>Bienvenido a G&V Computación</h1>
 
   <form id="loginForm" novalidate>
     <input type="text" id="username" name="username" placeholder="Ingrese su nombre de usuario" autocomplete="off" />
-    <div id="error" class="error-message" style="display:none;">Por favor ingrese un nombre de usuario</div>
-    <button type="submit">Ingresa</button>
+    <input type="password" id="password" name="password" placeholder="Ingrese su contraseña" autocomplete="off" />
+    <div id="error" class="error-message" style="display:none;">Por favor ingrese usuario y contraseña</div>
+    <div id="error-login" class="error-message" style="display:none;">Usuario o contraseña incorrectos</div>
+    <button type="submit">Ingresar</button>
   </form>
+
+  <button id="accesoRapido">Acceso rápido</button>
+  <button id="crearAdmin">Crear admin</button>
+</form>
 
   <script src="/js/bienvenida.js"></script>
 </body>

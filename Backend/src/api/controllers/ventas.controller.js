@@ -15,3 +15,5 @@ export async function crearVenta(req, res) {
         res.status(500).json({ error: "Error interno al registrar la venta" });
     }
 }
+
+//Recibe los datos necesarios, crea la venta en la tabla principal y luego registra los detalles de la misma.
